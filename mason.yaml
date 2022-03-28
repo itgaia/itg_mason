@@ -1,3 +1,7 @@
 bricks:
+  app_basic:
+    path: ./bricks/app_basic
   feature:
     path: ./bricks/feature
+  test_template:
+    path: ./bricks/test_template
