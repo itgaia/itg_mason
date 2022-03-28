@@ -29,11 +29,7 @@ void main() {
 
     group('S{{#upperCase}}{{abbreviation}}{{/upperCase}}IUC save', () {
       test('S{{#upperCase}}{{abbreviation}}{{/upperCase}}IUC save makes correct repository request', () {
-        const newItem = {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(
-          id: '4',
-          description: 'description 4',
-          content: 'content 4',
-        );
+        final newItem = item{{#pascalCase}}{{name_plural}}{{/pascalCase}}UpdateTestData;
         when(() => mockRepository.save{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item(any()))
             .thenAnswer((_) async => Right(tData));
         final subject = createSubject();

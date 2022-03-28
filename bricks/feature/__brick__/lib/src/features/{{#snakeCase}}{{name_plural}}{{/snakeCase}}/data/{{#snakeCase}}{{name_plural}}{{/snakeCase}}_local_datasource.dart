@@ -29,11 +29,11 @@ This a new paragraph
 With 2nd line
 and a 3rd line''';
 
-const itemLongContent = {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(
-  id: '4',
-  description: 'A {{#snakeCase}}{{name_singular}}{{/snakeCase}} with a long content',
-  content: textMultiLine
-);
+// const itemLongContent = {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(
+//   id: '4',
+//   description: 'A {{#snakeCase}}{{name_singular}}{{/snakeCase}} with a long content',
+//   content: textMultiLine
+// );
 
 class {{#pascalCase}}{{name_plural}}{{/pascalCase}}LocalDataSourceImpl implements {{#pascalCase}}{{name_plural}}{{/pascalCase}}LocalDataSource {
 
@@ -53,7 +53,8 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}LocalDataSourceImpl implement
   @override
   Future<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Model> add{{#pascalCase}}{{name_singular}}{{/pascalCase}}({{#snakeCase}}{{name_singular}}{{/snakeCase}}) {
     itgLogVerbose('[{{#pascalCase}}{{name_plural}}{{/pascalCase}}LocalDataSourceImpl.add{{#pascalCase}}{{name_singular}}{{/pascalCase}}] not implemented yet...');
-    return Future.value(const {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(description: 'description 11', content: 'content 11'));
+    // return Future.value(const {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(description: 'description 11', content: 'content 11'));
+    return Future.value(item{{#pascalCase}}{{name_plural}}{{/pascalCase}}Sample());
   }
 
   @override
@@ -70,7 +71,7 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}LocalDataSourceImpl implement
     // jsonString = null;
     late List<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Model> items;
     if (jsonString == null) {
-      items = {{#snakeCase}}{{name_plural}}{{/snakeCase}}SampleData(count: 2);
+      items = items{{#pascalCase}}{{name_plural}}{{/pascalCase}}Sample(count: 2);
       // items = {{#snakeCase}}{{name_plural}}{{/snakeCase}}SampleData(count: 13);
       // items[3] = itemLongContent;
       // cache{{#pascalCase}}{{name_plural}}{{/pascalCase}}(items);

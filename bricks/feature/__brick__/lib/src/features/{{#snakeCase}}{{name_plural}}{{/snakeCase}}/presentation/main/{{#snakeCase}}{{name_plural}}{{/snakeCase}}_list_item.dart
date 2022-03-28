@@ -60,7 +60,7 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}ListItemView extends Stateles
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _Title(item: item),
-                _Content(item: item)
+                {{#fields}}{{^is_title}}_{{#pascalCase}}{{field_name}}{{/pascalCase}}(item: item),{{/is_title}}{{/fields}}
               ],
             ),
           ),
@@ -110,7 +110,11 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}ListTile extends StatelessWid
       ),
       child: ListTile(
         title: _Title(item: item),
-        subtitle: _Content(item: item),
+        subtitle: Column(
+          children: [
+            {{#fields}}{{^is_title}}_{{#pascalCase}}{{field_name}}{{/pascalCase}}(item: item),{{/is_title}}{{/fields}}
+          ],
+        ),
       ),
     );
   }
@@ -146,9 +150,10 @@ class _Title extends StatelessWidget {
   }
 }
 
-class _Content extends StatelessWidget {
+//** fields except title start **//
+{{#fields}}{{^is_title}}class _{{#pascalCase}}{{field_name}}{{/pascalCase}} extends StatelessWidget {
   final {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model item;
-  const _Content({Key? key, required this.item}) : super(key: key);
+  const _{{#pascalCase}}{{field_name}}{{/pascalCase}}({Key? key, required this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -158,15 +163,18 @@ class _Content extends StatelessWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Text(
-            item.content,
+            item.{{#camelCase}}{{field_name}}{{/camelCase}},
             style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
             key: Key(keyNameGenerator(
                 keyElement: KeyElement.widget,
                 feature: [keyAbbrFeature{{#pascalCase}}{{name_plural}}{{/pascalCase}}, keyAbbrListItem],
                 id: item.id,
-                field: 'content'))
+                field: '{{#camelCase}}{{field_name}}{{/camelCase}}'))
         ),
       ),
     );
   }
-}
+}{{/is_title}}{{^is_last}}
+
+{{/is_last}}{{/fields}}
+//** fields except title end **//

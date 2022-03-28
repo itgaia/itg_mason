@@ -43,8 +43,8 @@ void main() {
     when(() => mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc.state).thenReturn(
         {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(
             initialData: {{#snakeCase}}{{name_singular}}{{/snakeCase}},
-            description: {{#snakeCase}}{{name_singular}}{{/snakeCase}}.description,
-            content: {{#snakeCase}}{{name_singular}}{{/snakeCase}}.content
+            {{#fields}}{{#camelCase}}{{field_name}}{{/camelCase}}: {{#snakeCase}}{{name_singular}}{{/snakeCase}}.{{#camelCase}}{{field_name}}{{/camelCase}},{{^is_last}}
+            {{/is_last}}{{/fields}}
         )
     );
 

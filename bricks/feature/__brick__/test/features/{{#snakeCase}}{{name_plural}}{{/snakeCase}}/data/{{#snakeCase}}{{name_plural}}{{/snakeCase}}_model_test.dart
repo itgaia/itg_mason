@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:dev_framework_tutorial/src/app/constants.dart';
+import 'package:dev_framework_tutorial/src/common/helper.dart';
 import 'package:dev_framework_tutorial/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/data/{{#snakeCase}}{{name_plural}}{{/snakeCase}}_model.dart';
+import 'package:dev_framework_tutorial/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/domain/{{#snakeCase}}{{name_plural}}{{/snakeCase}}_helper.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../fixtures/fixture_helper.dart';
@@ -19,6 +21,7 @@ void main() {
 
   group('fromJson', () {
     test('should return a valid model from JSON', () async {
+      itgLogPrint('{{#pascalCase}}{{name_plural}}{{/pascalCase}} model - should return a valid model from JSON - useMongoDbBackend: $useMongoDbBackend');
       final jsonData = useMongoDbBackend
         ? fixture('{{#snakeCase}}{{name_plural}}{{/snakeCase}}_mongo_fixture.json')
         : fixture('{{#snakeCase}}{{name_plural}}{{/snakeCase}}_fixture.json');
@@ -38,9 +41,9 @@ void main() {
     });
 
     test('should return correct data - omit if null or empty', () {
-      const item = {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(description: 'description1');
+      final item = item{{#pascalCase}}{{name_plural}}{{/pascalCase}}Sample();
       final result = item.toJson();
-      expect(result, equals({'description': 'description1'}));
+      expect(result, equals(item{{#pascalCase}}{{name_plural}}{{/pascalCase}}ObjectAsString(item)));
     });
   });
 }

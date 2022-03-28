@@ -7,23 +7,18 @@ abstract class {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditEvent ext
   List<Object> get props => [];
 }
 
-class {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditDescriptionChangedEvent extends {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditEvent {
-  final String description;
+//** fields start **//
+{{#fields}}class {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEdit{{#pascalCase}}{{field_name}}{{/pascalCase}}ChangedEvent extends {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditEvent {
+  final String {{#camelCase}}{{field_name}}{{/camelCase}};
 
-  const {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditDescriptionChangedEvent(this.description);
-
-  @override
-  List<Object> get props => [description];
-}
-
-class {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditContentChangedEvent extends {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditEvent {
-  final String content;
-
-  const {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditContentChangedEvent(this.content);
+  const {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEdit{{#pascalCase}}{{field_name}}{{/pascalCase}}ChangedEvent(this.{{#camelCase}}{{field_name}}{{/camelCase}});
 
   @override
-  List<Object> get props => [content];
-}
+  List<Object> get props => [{{#camelCase}}{{field_name}}{{/camelCase}}];
+}{{^is_last}}
+
+{{/is_last}}{{/fields}}
+//** fields end **//
 
 class {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditSubmittedEvent extends {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditEvent {
   const {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditSubmittedEvent();

@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 
 import 'package:dev_framework_tutorial/src/app/injection_container.dart';
 import 'package:dev_framework_tutorial/src/common/helper.dart';
-import 'package:dev_framework_tutorial/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/data/{{#snakeCase}}{{name_plural}}{{/snakeCase}}_model.dart';
 import 'package:dev_framework_tutorial/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/domain/get_{{#snakeCase}}{{name_plural}}{{/snakeCase}}_usecase.dart';
 import 'package:dev_framework_tutorial/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/presentation/main/bloc/{{#snakeCase}}{{name_plural}}{{/snakeCase}}_bloc.dart';
 import 'package:dev_framework_tutorial/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/presentation/main/{{#snakeCase}}{{name_plural}}{{/snakeCase}}_page.dart';
@@ -18,11 +17,6 @@ import '../../../../common/test_helper.dart';
 import '../../{{#snakeCase}}{{name_plural}}{{/snakeCase}}_test_helper.dart';
 
 void main() {
-  final mock{{#pascalCase}}{{name_plural}}{{/pascalCase}} = List.generate(
-    5,
-    (i) => {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(id: i.toString(), description: '{{#snakeCase}}{{name_singular}}{{/snakeCase}} code $i', content: '{{#snakeCase}}{{name_singular}}{{/snakeCase}} {{#snakeCase}}{{name_plural}}{{/snakeCase}} $i'),
-  );
-
   // late {{#pascalCase}}{{name_plural}}{{/pascalCase}}Bloc bloc;
   late Mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}Bloc mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}Bloc;
   late MockGet{{#pascalCase}}{{name_plural}}{{/pascalCase}}Usecase mockGet{{#pascalCase}}{{name_plural}}{{/pascalCase}}Usecase;
@@ -98,7 +92,7 @@ void main() {
       when(() => mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}Bloc.state).thenReturn(
           {{#pascalCase}}{{name_plural}}{{/pascalCase}}State(
               status: {{#pascalCase}}{{name_plural}}{{/pascalCase}}Status.success,
-              items: mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}
+              items: {{#snakeCase}}{{name_plural}}{{/snakeCase}}TestData()
           )
       );
       await widgetTester.pump{{#pascalCase}}{{name_plural}}{{/pascalCase}}List(mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}Bloc);

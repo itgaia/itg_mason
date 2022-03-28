@@ -1,0 +1,17 @@
+[
+  {
+    "id": "1",
+    {{#fields}}"{{#camelCase}}{{field_name}}{{/camelCase}}": "test {{#camelCase}}{{field_name}}{{/camelCase}} 1"{{^is_last}},{{/is_last}}{{^is_last}}
+    {{/is_last}}{{/fields}}
+  },
+  {
+    "id": "2",
+    {{#fields}}"{{#camelCase}}{{field_name}}{{/camelCase}}": "test {{#camelCase}}{{field_name}}{{/camelCase}} 2"{{^is_last}},{{/is_last}}{{^is_last}}
+    {{/is_last}}{{/fields}}
+  },
+  {
+    "id": "3",
+    {{#fields}}"{{#camelCase}}{{field_name}}{{/camelCase}}": "test {{#camelCase}}{{field_name}}{{/camelCase}} 3"{{^is_last}},{{/is_last}}{{^is_last}}
+    {{/is_last}}{{/fields}}
+  }
+]

@@ -22,29 +22,24 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc extends Bloc<
         super(
           {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(
             initialData: initialData,
-            description: initialData?.description ?? '',
-            content: initialData?.content ?? '',
+            {{#fields}}{{#camelCase}}{{field_name}}{{/camelCase}}: initialData?.{{#camelCase}}{{field_name}}{{/camelCase}} ?? '',{{^is_last}}
+            {{/is_last}}{{/fields}}
       )) {
-    on<{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditDescriptionChangedEvent>(_onDescriptionChanged);
-    on<{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditContentChangedEvent>(_onContentChanged);
+    {{#fields}}on<{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEdit{{#pascalCase}}{{field_name}}{{/pascalCase}}ChangedEvent>(_on{{#pascalCase}}{{field_name}}{{/pascalCase}}Changed);{{^is_last}}
+    {{/is_last}}{{/fields}}
     on<{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditSubmittedEvent>(_onSubmitted);
   }
 
-  void _onDescriptionChanged(
-      {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditDescriptionChangedEvent event,
+  //** fields start **//
+  {{#fields}}void _on{{#pascalCase}}{{field_name}}{{/pascalCase}}Changed(
+      {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEdit{{#pascalCase}}{{field_name}}{{/pascalCase}}ChangedEvent event,
       Emitter<{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState> emit,
   ) {
-    msgBaseSourceMethod = '_onDescriptionChanged';
-    msgLogInfo('event.description: ${event.description}');
-    emit(state.copyWith(description: event.description));
-  }
+    emit(state.copyWith({{#snakeCase}}{{field_name}}{{/snakeCase}}: event.{{#snakeCase}}{{field_name}}{{/snakeCase}}));
+  }{{^is_last}}
 
-  void _onContentChanged(
-      {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditContentChangedEvent event,
-      Emitter<{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState> emit,
-  ) {
-    emit(state.copyWith(content: event.content));
-  }
+  {{/is_last}}{{/fields}}
+  //** fields end **//
 
   Future<void> _onSubmitted(
       {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditSubmittedEvent event,
@@ -54,9 +49,9 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc extends Bloc<
     msgLogInfo('start...');
     emit(state.copyWith(status: {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditStatus.submitting));
     msgLogInfo('emitted submitting state...');
-    final {{#snakeCase}}{{name_plural}}{{/snakeCase}}Item = (state.initialData ?? const {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(description: '')).copyWith(
-      description: state.description,
-      content: state.content,
+    final {{#snakeCase}}{{name_plural}}{{/snakeCase}}Item = (state.initialData ?? const {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model({{#fields}}{{#required}}{{#camelCase}}{{field_name}}{{/camelCase}}: {{empty_value}}{{^is_last_required}}, {{/is_last_required}}{{/required}}{{/fields}})).copyWith(
+      {{#fields}}{{#camelCase}}{{field_name}}{{/camelCase}}: state.{{#camelCase}}{{field_name}}{{/camelCase}},{{^is_last}}
+      {{/is_last}}{{/fields}}
     );
 
     msgLogInfo('call _save{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemUsecase...');

@@ -1,0 +1,32 @@
+\/\/\*\* fields start \*\*\/\/
+{{#fields}}class _{{#pascalCase}}{{field_name}}{{\/pascalCase}}Field extends StatelessWidget {
+  const _{{#pascalCase}}{{field_name}}{{\/pascalCase}}Field({Key? key}) : super(key: key);
+
+  \@override
+  Widget build(BuildContext context) {
+    final state = context.watch<{{#pascalCase}}{{name_plural}}{{\/pascalCase}}ItemAddEditBloc>().state;
+    final hintText = state.initialData?.{{#camelCase}}{{field_name}}{{\/camelCase}} ?? '';
+    itgLogVerbose('[{{#pascalCase}}{{name_plural}}{{\/pascalCase}}ItemAddEditView._{{#pascalCase}}{{field_name}}{{\/pascalCase}}Field.build] text: \$hintText, label: \${ItgLocalization.tr('{{#camelCase}}{{field_name}}{{\/camelCase}}')}');
+
+    return TextFormField(
+      key: const Key('\$key{{#pascalCase}}{{name_plural}}{{\/pascalCase}}WidgetItemAddEditBase-col1-{{#paramCase}}{{field_name}}{{\/paramCase}}'),
+      initialValue: state.{{#camelCase}}{{field_name}}{{\/camelCase}},
+      decoration: InputDecoration(
+        enabled: !state.status.isSubmittingOrSuccess,
+        labelText: ItgLocalization.tr('{{#camelCase}}{{field_name}}{{\/camelCase}}'),
+        hintText: hintText,
+      ),
+      maxLength: {{max_length}},
+      {{#is_ml}}maxLines: 7,{{\/is_ml}}
+      inputFormatters: [
+        LengthLimitingTextInputFormatter({{max_length}}),
+      ],
+      onChanged: (value) {
+        itgLogVerbose('{{#pascalCase}}{{name_plural}}{{\/pascalCase}}ItemAddEditView._{{#pascalCase}}{{field_name}}{{\/pascalCase}}Field - TextFormField - onChange - value: \$value');
+        context.read<{{#pascalCase}}{{name_plural}}{{\/pascalCase}}ItemAddEditBloc>().add({{#pascalCase}}{{name_plural}}{{\/pascalCase}}ItemAddEdit{{#pascalCase}}{{field_name}}{{\/pascalCase}}ChangedEvent(value));
+        \/\/ sl<{{#pascalCase}}{{name_plural}}{{\/pascalCase}}ItemAddEditBloc>().add({{#pascalCase}}{{name_plural}}{{\/pascalCase}}ItemAddEditCodeChangedEvent(value));
+      },
+    );
+  }
+}{{^is_last}}\n\n{{\/is_last}}{{\/fields}}
+\/\/\*\* fields end \*\*\/\/

@@ -27,8 +27,8 @@ void main() {
       await widgetTester.pumpAndSettle();
 
       expect(find.byKey(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemShowBase-col1-id')), findsOneWidget);
-      expect(find.byKey(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemShowBase-col1-description')), findsOneWidget);
-      expect(find.byKey(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemShowBase-col1-content')), findsOneWidget);
+      {{#fields}}expect(find.byKey(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemShowBase-col1-{{#paramCase}}{{field_name}}{{/paramCase}}')), findsOneWidget);{{^is_last}}
+      {{/is_last}}{{/fields}}
     });
   });
 }

@@ -27,7 +27,24 @@ const asset{{#pascalCase}}{{name_plural}}{{/pascalCase}}Fixture = '{{#snakeCase}
 const asset{{#pascalCase}}{{name_plural}}{{/pascalCase}}ResponseFixture = '{{#snakeCase}}{{name_plural}}{{/snakeCase}}_response_fixture.json';
 const asset{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemCreateResponseFixture = '{{#snakeCase}}{{name_plural}}{{/snakeCase}}_item_create_response_fixture.json';
 
-List<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Model> {{#snakeCase}}{{name_plural}}{{/snakeCase}}SampleData({int count = 5}) => List.generate(
+Map<String, dynamic> fields{{#pascalCase}}{{name_plural}}{{/pascalCase}} = {
+  {{#fields}}'{{#camelCase}}{{field_name}}{{/camelCase}}': {'kind': '{{kind}}', 'type': '{{type}}', 'label': '{{label}}', 'required': {{required}}},{{^is_last}}
+  {{/is_last}}{{/fields}}
+};
+
+List<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Model> items{{#pascalCase}}{{name_plural}}{{/pascalCase}}Sample({int count = 5}) => List.generate(
     count,
-        (i) => {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(id: '${i+1}', description: 'test description ${i+1}', content: 'test content ${i+1}')
+        (i) => {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(id: '${i+1}', {{#fields}}{{#camelCase}}{{field_name}}{{/camelCase}}: 'test {{#camelCase}}{{field_name}}{{/camelCase}} ${i+1}'{{^is_last}}, {{/is_last}}{{/fields}})
 );
+
+{{#pascalCase}}{{name_plural}}{{/pascalCase}}Model item{{#pascalCase}}{{name_plural}}{{/pascalCase}}Sample() => items{{#pascalCase}}{{name_plural}}{{/pascalCase}}Sample().first;
+
+Map<String, dynamic> item{{#pascalCase}}{{name_plural}}{{/pascalCase}}ObjectAsString({{#pascalCase}}{{name_plural}}{{/pascalCase}}Model item, {bool omitEmpty = true}) {
+  Map<String, dynamic> ret = {};
+  for (var element in {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model.fields) {
+    if (!omitEmpty || (omitEmpty && item[element].toString().isNotEmpty)) {
+      ret[element] = item[element];
+    }
+  }
+  return ret;
+}

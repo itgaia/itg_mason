@@ -55,7 +55,7 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditView extends State
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(
-              children: const [_DescriptionField(), _ContentField()],
+              children: const [{{#fields}}_{{#pascalCase}}{{field_name}}{{/pascalCase}}Field(){{^is_last}}, {{/is_last}}{{/fields}}],
             ),
           ),
         ),
@@ -64,63 +64,37 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditView extends State
   }
 }
 
-class _DescriptionField extends StatelessWidget {
-  const _DescriptionField({Key? key}) : super(key: key);
+//** fields start **//
+{{#fields}}class _{{#pascalCase}}{{field_name}}{{/pascalCase}}Field extends StatelessWidget {
+  const _{{#pascalCase}}{{field_name}}{{/pascalCase}}Field({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final state = context.watch<{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc>().state;
-    final hintText = state.initialData?.description ?? '';
-    itgLogVerbose('[{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditView._DescriptionField.build] text: $hintText, label: ${ItgLocalization.tr('description')}');
+    final hintText = state.initialData?.{{#camelCase}}{{field_name}}{{/camelCase}} ?? '';
+    itgLogVerbose('[{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditView._{{#pascalCase}}{{field_name}}{{/pascalCase}}Field.build] text: $hintText, label: ${ItgLocalization.tr('{{#camelCase}}{{field_name}}{{/camelCase}}')}');
 
     return TextFormField(
-      key: const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemAddEditBase-col1-description'),
-      initialValue: state.description,
+      key: const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemAddEditBase-col1-{{#paramCase}}{{field_name}}{{/paramCase}}'),
+      initialValue: state.{{#camelCase}}{{field_name}}{{/camelCase}},
       decoration: InputDecoration(
         enabled: !state.status.isSubmittingOrSuccess,
-        labelText: ItgLocalization.tr('description'),
+        labelText: ItgLocalization.tr('{{#camelCase}}{{field_name}}{{/camelCase}}'),
         hintText: hintText,
       ),
-      maxLength: 50,
+      maxLength: {{max_length}},
+      {{#is_ml}}maxLines: 7,{{/is_ml}}
       inputFormatters: [
-        LengthLimitingTextInputFormatter(50),
+        LengthLimitingTextInputFormatter({{max_length}}),
       ],
       onChanged: (value) {
-        itgLogVerbose('{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditView._DescriptionField - TextFormField - onChange - value: $value');
-        context.read<{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc>().add({{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditDescriptionChangedEvent(value));
+        itgLogVerbose('{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditView._{{#pascalCase}}{{field_name}}{{/pascalCase}}Field - TextFormField - onChange - value: $value');
+        context.read<{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc>().add({{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEdit{{#pascalCase}}{{field_name}}{{/pascalCase}}ChangedEvent(value));
         // sl<{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc>().add({{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditCodeChangedEvent(value));
       },
     );
   }
-}
+}{{^is_last}}
 
-class _ContentField extends StatelessWidget {
-  const _ContentField({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final state = context.watch<{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc>().state;
-    final hintText = state.initialData?.content ?? '';
-    itgLogVerbose('[{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditView._ContentField.build] text: $hintText, label: ${ItgLocalization.tr('content')}');
-
-    return TextFormField(
-      key: const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemAddEditBase-col1-content'),
-      initialValue: state.content,
-      decoration: InputDecoration(
-        enabled: !state.status.isSubmittingOrSuccess,
-        labelText: ItgLocalization.tr('content'),
-        hintText: hintText,
-      ),
-      maxLength: 300,
-      maxLines: 7,
-      inputFormatters: [
-        LengthLimitingTextInputFormatter(300),
-      ],
-      onChanged: (value) {
-        itgLogVerbose('{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditView._ContentField - TextFormField - onChange - value: $value');
-        context.read<{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc>().add({{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditContentChangedEvent(value));
-        // sl<{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc>().add({{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEdit{{#pascalCase}}{{name_plural}}{{/pascalCase}}ChangedEvent(value));
-      },
-    );
-  }
-}
+{{/is_last}}{{/fields}}
+//** fields end **//

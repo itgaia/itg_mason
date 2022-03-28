@@ -14,15 +14,15 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState extends Equa
     this.status = {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditStatus.initial,
     this.initialData,
     this.id = '',
-    this.description = '',
-    this.content = '',
+    {{#fields}}this.{{#camelCase}}{{field_name}}{{/camelCase}} = {{empty_value}},{{^is_last}}
+    {{/is_last}}{{/fields}}
   });
 
   final {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditStatus status;
   final {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model? initialData;
   final String id;
-  final String description;
-  final String content;
+  {{#fields}}final String {{#camelCase}}{{field_name}}{{/camelCase}};{{^is_last}}
+  {{/is_last}}{{/fields}}
 
   bool get isNew => initialData == null;
 
@@ -30,18 +30,18 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState extends Equa
     {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditStatus? status,
     {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model? initialData,
     String? id,
-    String? description,
-    String? content,
+    {{#fields}}String? {{#camelCase}}{{field_name}}{{/camelCase}},{{^is_last}}
+    {{/is_last}}{{/fields}}
   }) {
     return {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(
       status: status ?? this.status,
       initialData: initialData ?? this.initialData,
       id: id ?? this.id,
-      description: description ?? this.description,
-      content: content ?? this.content,
+      {{#fields}}{{#camelCase}}{{field_name}}{{/camelCase}}: {{#camelCase}}{{field_name}}{{/camelCase}} ?? this.{{#camelCase}}{{field_name}}{{/camelCase}},{{^is_last}}
+      {{/is_last}}{{/fields}}
     );
   }
 
   @override
-  List<Object?> get props => [status, initialData, id, description, content];
+  List<Object?> get props => [status, initialData, id{{#fields}}, {{#camelCase}}{{field_name}}{{/camelCase}}{{/fields}}];
 }

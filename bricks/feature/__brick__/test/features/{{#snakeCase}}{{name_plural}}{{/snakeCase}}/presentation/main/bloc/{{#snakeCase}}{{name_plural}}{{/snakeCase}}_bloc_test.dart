@@ -4,7 +4,6 @@ import 'package:dartz/dartz.dart';
 import 'package:dev_framework_tutorial/src/app/injection_container.dart';
 import 'package:dev_framework_tutorial/src/core/error/failures.dart';
 import 'package:dev_framework_tutorial/src/core/usecase/usecase.dart';
-import 'package:dev_framework_tutorial/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/data/{{#snakeCase}}{{name_plural}}{{/snakeCase}}_model.dart';
 import 'package:dev_framework_tutorial/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/domain/delete_{{#snakeCase}}{{name_plural}}{{/snakeCase}}_item_usecase.dart';
 import 'package:dev_framework_tutorial/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/domain/save_{{#snakeCase}}{{name_plural}}{{/snakeCase}}_item_usecase.dart';
 import 'package:dev_framework_tutorial/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/presentation/main/bloc/{{#snakeCase}}{{name_plural}}{{/snakeCase}}_bloc.dart';
@@ -23,7 +22,7 @@ void main() {
 
   setUpAll(() {
     registerFallbackValue(NoParams());
-    registerFallbackValue(const {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(description: '111'));
+    {{#snakeCase}}{{name_plural}}{{/snakeCase}}RegisterFallbackValue();
   });
 
   setUp(() {

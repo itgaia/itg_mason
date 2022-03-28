@@ -83,8 +83,8 @@ void main() {
 
     test('{{#upperCase}}{{abbreviation}}{{/upperCase}}RDS create should return the item with id and dates when the response code is 200', () async {
       setUpHttpClientCreate{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemSuccess200();
-      final result = await dataSource.create{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item(sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddData);
-      expect(result, equals(sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddDataExpected));
+      final result = await dataSource.create{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item(item{{#pascalCase}}{{name_plural}}{{/pascalCase}}AddTestData);
+      expect(result, equals(item{{#pascalCase}}{{name_plural}}{{/pascalCase}}AddTestDataExpected));
     }, skip: !useHttpClient);
 
     test('{{#upperCase}}{{abbreviation}}{{/upperCase}}RDS create should return a ServerException when the response code is 404 or other', () async {

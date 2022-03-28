@@ -21,16 +21,14 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemScreen extends StatelessW
               text: data.id == null ? '<not assigned>' : data.id!,
               key: const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemShowBase-col1-id')
             ),
-            ItgTextWithLabel(
-              label: 'Description',
-              text: data.description,
-              key: const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemShowBase-col1-description')
-            ),
-            ItgTextWithLabel(
-              label: 'Content',
-              text: data.content,
-              key: const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemShowBase-col1-content')
-            ),
+            //** fields start **//
+            {{#fields}}ItgTextWithLabel(
+              label: '{{#pascalCase}}{{field_name}}{{/pascalCase}}',
+              text: data.{{#camelCase}}{{field_name}}{{/camelCase}},
+              key: const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemShowBase-col1-{{#paramCase}}{{field_name}}{{/paramCase}}')
+            ),{{^is_last}}
+            {{/is_last}}{{/fields}}
+            //** fields end **//
           ],
         ),
       )

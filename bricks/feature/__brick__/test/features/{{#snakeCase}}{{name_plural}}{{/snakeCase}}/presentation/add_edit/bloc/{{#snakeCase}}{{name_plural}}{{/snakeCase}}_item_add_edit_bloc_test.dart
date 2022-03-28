@@ -42,29 +42,21 @@ void main() {
       });
     });
 
-    group('{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditDescriptionChangedEvent', () {
+    //** fields start **//
+    {{#fields}}group('{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEdit{{#pascalCase}}{{field_name}}{{/pascalCase}}ChangedEvent', () {
       blocTest<{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc, {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState>(
-        'emits new state with updated code',
+        'emits new state with updated {{#snakeCase}}{{field_name}}{{/snakeCase}}',
         build: buildBloc,
         act: (bloc) =>
-            bloc.add(const {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditDescriptionChangedEvent('new code')),
+            bloc.add(const {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditDescriptionChangedEvent('new {{#snakeCase}}{{field_name}}{{/snakeCase}}')),
         expect: () => const [
-          {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(description: 'new code'),
+          {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(description: 'new {{#snakeCase}}{{field_name}}{{/snakeCase}}'),
         ],
       );
-    });
+    });{{^is_last}}
 
-    group('{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditContentChangedEvent', () {
-      blocTest<{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc, {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState>(
-        'emits new state with updated {{#snakeCase}}{{name_plural}}{{/snakeCase}}',
-        build: buildBloc,
-        act: (bloc) =>
-            bloc.add(const {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditContentChangedEvent('new {{#snakeCase}}{{name_plural}}{{/snakeCase}}')),
-        expect: () => const [
-          {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(content: 'new {{#snakeCase}}{{name_plural}}{{/snakeCase}}'),
-        ],
-      );
-    });
+    {{/is_last}}{{/fields}}
+    //** fields end **//
 
     group('{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditSubmittedEvent', () {
       blocTest<{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc, {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState>(
@@ -74,32 +66,18 @@ void main() {
           when(() => mockSave{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemUsecase(any())).thenAnswer((_) async => Right(data));
         },
         build: buildBloc,
-        seed: () => const {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(
-          description: 'description',
-          content: 'content',
-        ),
+        seed: () => sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(),
         act: (bloc) => bloc.add(const {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditSubmittedEvent()),
-        expect: () => const [
-          {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(
-            status: {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditStatus.submitting,
-            description: 'description',
-            content: 'content',
-          ),
-          {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(
-            status: {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditStatus.success,
-            description: 'description',
-            content: 'content',
-          ),
+        expect: () => [
+          sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(status: {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditStatus.submitting),
+          sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(status: {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditStatus.success),
         ],
         verify: (bloc) {
           verify(() => mockSave{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemUsecase(any(
                 that: isA<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Model>()
-                    .having((t) => t.description, 'description', equals('description'))
-                    .having((t) => t.content, 'content', equals('content'),
-                ),
-              ),
-            ),
-          ).called(1);
+                    {{#fields}}.having((t) => t.{{#camelCase}}{{field_name}}{{/camelCase}}, '{{#camelCase}}{{field_name}}{{/camelCase}}', equals('{{#camelCase}}{{field_name}}{{/camelCase}}')){{^is_last}}
+                    {{/is_last}}{{/fields}}
+          ))).called(1);
         },
       );
 
@@ -110,45 +88,28 @@ void main() {
           when(() => mockSave{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemUsecase(any())).thenAnswer((_) async => Right(data));
         },
         build: buildBloc,
-        seed: () => const {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(
-          initialData: {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(
-            id: 'initial-id',
-            description: 'initial-description',
-          ),
-          description: 'description',
-          content: 'content',
+        seed: () => sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(
+          initialData: sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemInitialData
         ),
         act: (bloc) => bloc.add(const {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditSubmittedEvent()),
         expect: () => [
-          const {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(
+          sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(
             status: {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditStatus.submitting,
-            initialData: {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(
-              id: 'initial-id',
-              description: 'initial-description',
-            ),
-            description: 'description',
-            content: 'content',
+            initialData: sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemInitialData
           ),
-          const {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(
+          sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(
             status: {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditStatus.success,
-            initialData: {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(
-              id: 'initial-id',
-              description: 'initial-description',
-            ),
-            description: 'description',
-            content: 'content',
-          ),
+            initialData: sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemInitialData
+          )
         ],
         verify: (bloc) {
           verify(() => mockSave{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemUsecase(any(
                 that: isA<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Model>()
-                    .having((t) => t.id, 'id', equals('initial-id'))
-                    .having((t) => t.description, 'description', equals('description'))
-                    .having((t) => t.content, 'content', equals('content'),
-                ),
-              ),
-            ),
-          );
+                    // .having((t) => t.id, 'id', equals('initial-id'))
+                    .having((t) => t.id, 'id', equals(sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemInitialData.id))
+                    {{#fields}}.having((t) => t.{{#camelCase}}{{field_name}}{{/camelCase}}, '{{#camelCase}}{{field_name}}{{/camelCase}}', equals('{{#camelCase}}{{field_name}}{{/camelCase}}')){{^is_last}}
+                    {{/is_last}}{{/fields}}
+              )));
         },
       );
 
@@ -160,22 +121,11 @@ void main() {
             .thenAnswer((_) async => const Left(ServerFailure()));
           return buildBloc();
         },
-        seed: () => const {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(
-          description: 'description',
-          content: 'content',
-        ),
+        seed: () => sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(),
         act: (bloc) => bloc.add(const {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditSubmittedEvent()),
-        expect: () => const [
-          {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(
-            status: {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditStatus.submitting,
-            description: 'description',
-            content: 'content',
-          ),
-          {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(
-            status: {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditStatus.failure,
-            description: 'description',
-            content: 'content',
-          ),
+        expect: () => [
+          sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(status: {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditStatus.submitting),
+          sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(status: {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditStatus.failure),
         ],
       );
     });

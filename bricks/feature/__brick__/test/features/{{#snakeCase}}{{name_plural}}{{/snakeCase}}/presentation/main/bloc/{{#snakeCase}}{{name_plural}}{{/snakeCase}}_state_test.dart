@@ -4,16 +4,10 @@ import 'package:dev_framework_tutorial/src/features/{{#snakeCase}}{{name_plural}
 import 'package:dev_framework_tutorial/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/presentation/main/bloc/{{#snakeCase}}{{name_plural}}{{/snakeCase}}_bloc.dart';
 import 'package:dev_framework_tutorial/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/presentation/main/{{#snakeCase}}{{name_plural}}{{/snakeCase}}_list_filter.dart';
 
+import '../../../{{#snakeCase}}{{name_plural}}{{/snakeCase}}_test_helper.dart';
+
 void main() {
   group('{{#pascalCase}}{{name_plural}}{{/pascalCase}}State', () {
-    const mockItem = {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(
-      id: '1',
-      description: 'description 1',
-      content: 'content 1',
-      updatedAt: '2021-09-22T07:06:52.604Z'
-    );
-    const mockItems = [mockItem];
-
     {{#pascalCase}}{{name_plural}}{{/pascalCase}}State createSubject({
       {{#pascalCase}}{{name_plural}}{{/pascalCase}}Status status = {{#pascalCase}}{{name_plural}}{{/pascalCase}}Status.initial,
       List<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Model>? items,
@@ -22,7 +16,7 @@ void main() {
     }) {
       return {{#pascalCase}}{{name_plural}}{{/pascalCase}}State(
         status: status,
-        items: items ?? mockItems,
+        items: items ?? mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}Items,
         filter: filter,
         lastDeletedItem: lastDeletedItem,
       );
@@ -36,13 +30,13 @@ void main() {
       expect(
         createSubject(
           status: {{#pascalCase}}{{name_plural}}{{/pascalCase}}Status.initial,
-          items: mockItems,
+          items: mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}Items,
           filter: {{#pascalCase}}{{name_plural}}{{/pascalCase}}ListFilter.all,
           lastDeletedItem: null,
         ).props,
         equals(<Object?>[
           {{#pascalCase}}{{name_plural}}{{/pascalCase}}Status.initial, // status
-          mockItems, // todos
+          mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}Items, // todos
           {{#pascalCase}}{{name_plural}}{{/pascalCase}}ListFilter.all, // filter
           null, // lastDeletedTodo
         ]),
@@ -52,11 +46,11 @@ void main() {
     test('{{#upperCase}}{{abbreviation}}{{/upperCase}}S filteredItems returns items filtered by filter', () {
       expect(
         createSubject(
-          items: mockItems,
+          items: mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}Items,
           filter: {{#pascalCase}}{{name_plural}}{{/pascalCase}}ListFilter.latest,
         ).filteredItems,
-        // equals(mockItems.where((item) => item.dtEmpty.isNotEmpty).toList()),
-        equals(mockItems.where((item) {
+        // equals(mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}Items.where((item) => item.dtEmpty.isNotEmpty).toList()),
+        equals(mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}Items.where((item) {
           final DateTime dtUpdatedAt = jsonStringAsValue(item.updatedAt, valueType: 'date');
           final DateTime dtMin = DateTime.now().subtract(const Duration(days: 30+1));
           return dtUpdatedAt.isAfter(dtMin);
@@ -87,14 +81,14 @@ void main() {
             status: () => {{#pascalCase}}{{name_plural}}{{/pascalCase}}Status.success,
             items: () => [],
             filter: () => {{#pascalCase}}{{name_plural}}{{/pascalCase}}ListFilter.latest,
-            lastDeletedItem: () => mockItem,
+            lastDeletedItem: () => mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item,
           ),
           equals(
             createSubject(
               status: {{#pascalCase}}{{name_plural}}{{/pascalCase}}Status.success,
               items: [],
               filter: {{#pascalCase}}{{name_plural}}{{/pascalCase}}ListFilter.latest,
-              lastDeletedItem: mockItem,
+              lastDeletedItem: mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item,
             ),
           ),
         );
@@ -102,7 +96,7 @@ void main() {
 
       test('{{#upperCase}}{{abbreviation}}{{/upperCase}}S can copyWith null lastDeletedItem', () {
         expect(
-          createSubject(lastDeletedItem: mockItem).copyWith(
+          createSubject(lastDeletedItem: mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item).copyWith(
             lastDeletedItem: () => null,
           ),
           equals(createSubject(lastDeletedItem: null)),

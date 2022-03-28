@@ -35,11 +35,7 @@ void main() {
 
     mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc = Mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc();
     when(() => mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc.state).thenReturn(
-      {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(
-        initialData: tItem,
-        description: tItem.description,
-        content: tItem.content
-      )
+      sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(initialData: tItem)
     );
 
     await initializeAppForTesting();
@@ -105,15 +101,12 @@ void main() {
         await tester.pumpRoute(
           {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditPage.route(
             action: ItemAddEditAction.add,
-            initialData: const {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(
-              id: 'initial-id',
-              description: 'initial',
-            ),
+            initialData: sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemInitialData
           ),
         );
         expect(find.byType({{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditPage), findsOneWidget);
         expect(
-          find.byWidgetPredicate((w) => w is EditableText && w.controller.text == 'initial'),
+          find.byWidgetPredicate((w) => w is EditableText && w.controller.text == sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemInitialData.description),
           findsOneWidget,
         );
       });

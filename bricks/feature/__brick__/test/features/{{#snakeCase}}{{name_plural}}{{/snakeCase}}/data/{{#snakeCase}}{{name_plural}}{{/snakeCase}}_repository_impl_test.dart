@@ -12,25 +12,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../{{#snakeCase}}{{name_plural}}{{/snakeCase}}_test_helper.dart';
 
-const sampleData = '''[
-  {
-    "_id": {"\$oid":"61011f6d4558ebe4f88abc1"},
-    "description": "test description 1",
-    "content": "test content 1"
-  },
-  {
-    "_id": {"\$oid":"61011f6d4558ebe4f88abc2"},
-    "description": "test description 2",
-    "content": "test content 2"
-  },
-  {
-    "_id": {"\$oid":"61011f6d4558ebe4f88abc3"},
-    "description": "test description 3",
-    "content": "test content 3"
-  }
-]''';
-
-
 void main() {
   late {{#pascalCase}}{{name_plural}}{{/pascalCase}}RemoteDataSource mockRemoteDataSource;
   late {{#pascalCase}}{{name_plural}}{{/pascalCase}}LocalDataSource mockLocalDataSource;
@@ -139,7 +120,7 @@ void main() {
     _runTestsOffline(() {
       group('{{#upperCase}}{{abbreviation}}{{/upperCase}}RI get (LocalDataSource)', () {
         test('{{#upperCase}}{{abbreviation}}{{/upperCase}}RI get should return local data when the call to local data source is successful', () async {
-          SharedPreferences.setMockInitialValues({cached{{#pascalCase}}{{name_plural}}{{/pascalCase}}Key: sampleData});
+          SharedPreferences.setMockInitialValues({cached{{#pascalCase}}{{name_plural}}{{/pascalCase}}Key: sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}Data});
           when(() => mockLocalDataSource.get{{#pascalCase}}{{name_plural}}{{/pascalCase}}())
             .thenAnswer((_) async => t{{#pascalCase}}{{name_plural}}{{/pascalCase}}ModelList);
           final subject = createSubject();
@@ -168,10 +149,7 @@ void main() {
         final {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model tItem = tItems.first;
 
         test('{{#upperCase}}{{abbreviation}}{{/upperCase}}RI save makes correct repository request (create)', () async {
-          const newItem = {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(
-            description: 'description 4',
-            content: 'content 4',
-          );
+          const newItem = item{{#pascalCase}}{{name_plural}}{{/pascalCase}}AddTestData;
           when(() => mockLocalDataSource.cache{{#pascalCase}}{{name_plural}}{{/pascalCase}}(any()))
               .thenAnswer((_) async => {});
           when(() => mockLocalDataSource.get{{#pascalCase}}{{name_plural}}{{/pascalCase}}())
@@ -187,17 +165,13 @@ void main() {
         });
 
         test('{{#upperCase}}{{abbreviation}}{{/upperCase}}RI save makes correct repository request (update)', () async {
-          const newItem = {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(
-            id: '4',
-            description: 'description 4',
-            content: 'content 4',
-          );
+          final item = item{{#pascalCase}}{{name_plural}}{{/pascalCase}}UpdateTestData;
           when(() => mockRemoteDataSource.update{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item(any()))
               .thenAnswer((_) async => tItem);
           final subject = createSubject();
-          expect(subject.save{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item(newItem), completes);
-          expect(await subject.save{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item(newItem), equals(Right(tItem)));
-          verify(() => mockRemoteDataSource.update{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item(newItem)).called(2);
+          expect(subject.save{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item(item), completes);
+          expect(await subject.save{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item(item), equals(Right(tItem)));
+          verify(() => mockRemoteDataSource.update{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item(item)).called(2);
         });
 
         test('{{#upperCase}}{{abbreviation}}{{/upperCase}}RI save should return remote data when the call to remote data source is successful', () async {

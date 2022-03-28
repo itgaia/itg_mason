@@ -32,11 +32,7 @@ void main() {
 
     mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc = Mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc();
     when(() => mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc.state).thenReturn(
-        {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(
-            initialData: {{#snakeCase}}{{name_plural}}{{/snakeCase}}Item,
-            description: {{#snakeCase}}{{name_plural}}{{/snakeCase}}Item.description,
-            content: {{#snakeCase}}{{name_plural}}{{/snakeCase}}Item.content
-        )
+      sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(initialData: {{#snakeCase}}{{name_plural}}{{/snakeCase}}Item)
     );
 
     itgLogVerbose('{{#pascalCase}}{{name_plural}}{{/pascalCase}} Item Add/Edit View test - SetUp - Start...');
@@ -59,8 +55,8 @@ void main() {
     testWidgets('{{#upperCase}}{{abbreviation}}{{/upperCase}}IAEV show view widgets', (widgetTester) async {
       await widgetTester.pumpWidgetUnderTest();
       // await widgetTester.pumpAndSettle();
-      expect(find.byKey(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemAddEditBase-col1-description')), findsOneWidget);
-      expect(find.byKey(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemAddEditBase-col1-content')), findsOneWidget);
+      {{#fields}}expect(find.byKey(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemAddEditBase-col1-{{#paramCase}}{{field_name}}{{/paramCase}}')), findsOneWidget);{{^is_last}}
+      {{/is_last}}{{/fields}}
 
       expect(find.byType(Form), findsNothing);
       expect(find.byType(TextFormField), findsNWidgets(2));
@@ -101,7 +97,7 @@ void main() {
 
       when(() => mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc.state).thenReturn(
         const {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(
-          initialData: {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(description: 'description'),
+          initialData: sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemInitialData,
         ),
       );
       await tester.pumpApp(buildSubject());
@@ -128,75 +124,44 @@ void main() {
       );
     }
 
-    group('{{#upperCase}}{{abbreviation}}{{/upperCase}}IAEV code text form field', () {
-      testWidgets('{{#upperCase}}{{abbreviation}}{{/upperCase}}IAEV code is rendered', (tester) async {
+    //** fields start **//
+    {{#fields}}group('{{#upperCase}}{{abbreviation}}{{/upperCase}}IAEV {{#camelCase}}{{field_name}}{{/camelCase}} form field', () {
+      testWidgets('{{#upperCase}}{{abbreviation}}{{/upperCase}}IAEV {{#pascalCase}}{{field_name}}{{/pascalCase}} is rendered', (tester) async {
         await tester.pumpApp(buildSubject());
 
-        expect(find.byKey(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemAddEditBase-col1-description')), findsOneWidget);
+        expect(find.byKey(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemAddEditBase-col1-{{#paramCase}}{{field_name}}{{/paramCase}}')), findsOneWidget);
       });
 
-      testWidgets('{{#upperCase}}{{abbreviation}}{{/upperCase}}IAEV code is disabled when loading', (tester) async {
+      testWidgets('{{#upperCase}}{{abbreviation}}{{/upperCase}}IAEV {{#camelCase}}{{field_name}}{{/camelCase}} is disabled when loading', (tester) async {
         when(() => mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc.state).thenReturn(
           const {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(status: {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditStatus.submitting),
         );
         await tester.pumpApp(buildSubject());
 
-        final textField = tester.widget<TextFormField>(find.byKey(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemAddEditBase-col1-description')));
+        final textField = tester.widget<TextFormField>(find.byKey(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemAddEditBase-col1-{{#paramCase}}{{field_name}}{{/paramCase}}')));
         expect(textField.enabled, false);
       });
 
       testWidgets(
-        'adds {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditDescriptionChangedEvent '
+        'adds {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEdit{{#pascalCase}}{{field_name}}{{/pascalCase}}ChangedEvent '
         'to {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc '
         'when a new value is entered',
         (tester) async {
           await tester.pumpApp(buildSubject());
           await tester.enterText(
-            find.byKey(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemAddEditBase-col1-description')),
-            'new code',
+            find.byKey(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemAddEditBase-col1-{{#paramCase}}{{field_name}}{{/paramCase}}')),
+            'new {{#camelCase}}{{field_name}}{{/camelCase}}',
           );
 
           verify(() => mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc
-              .add(const {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditDescriptionChangedEvent('new code')))
+              .add(const {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEdit{{#pascalCase}}{{field_name}}{{/pascalCase}}ChangedEvent('new {{#camelCase}}{{field_name}}{{/camelCase}}')))
               .called(1);
         },
       );
-    });
+    });{{^is_last}}
 
-    group('{{#upperCase}}{{abbreviation}}{{/upperCase}}IAEV context text form field', () {
-      testWidgets('{{#upperCase}}{{abbreviation}}{{/upperCase}}IAEV context is rendered', (tester) async {
-        await tester.pumpApp(buildSubject());
-
-        expect(find.byKey(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemAddEditBase-col1-content')), findsOneWidget);
-      });
-
-      testWidgets('{{#upperCase}}{{abbreviation}}{{/upperCase}}IAEV context is disabled when loading', (tester) async {
-        when(() => mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc.state).thenReturn(
-          const {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(status: {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditStatus.submitting),
-        );
-        await tester.pumpApp(buildSubject());
-
-        final textField = tester.widget<TextFormField>(find.byKey(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemAddEditBase-col1-content')));
-        expect(textField.enabled, false);
-      });
-
-      testWidgets(
-        'adds {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditContentChangedEvent '
-        'to {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc '
-        'when a new value is entered',
-        (tester) async {
-          await tester.pumpApp(buildSubject());
-          await tester.enterText(
-            find.byKey(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemAddEditBase-col1-content')),
-            'new-content',
-          );
-
-          verify(() => mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditBloc
-              .add(const {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditContentChangedEvent('new-content')))
-              .called(1);
-        },
-      );
-    });
+    {{/is_last}}{{/fields}}
+    //** fields end **//
 
     group('{{#upperCase}}{{abbreviation}}{{/upperCase}}IAEV save fab', () {
       testWidgets('{{#upperCase}}{{abbreviation}}{{/upperCase}}IAEV save fab is rendered', (tester) async {

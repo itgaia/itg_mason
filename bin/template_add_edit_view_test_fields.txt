@@ -1,0 +1,36 @@
+    \/\/\*\* fields start \*\*\/\/
+    {{#fields}}group('{{#upperCase}}{{abbreviation}}{{\/upperCase}}IAEV {{#camelCase}}{{field_name}}{{\/camelCase}} form field', () {
+      testWidgets('{{#upperCase}}{{abbreviation}}{{\/upperCase}}IAEV {{#pascalCase}}{{field_name}}{{\/pascalCase}} is rendered', (tester) async {
+        await tester.pumpApp(buildSubject());
+
+        expect(find.byKey(const Key('\$key{{#pascalCase}}{{name_plural}}{{\/pascalCase}}WidgetItemAddEditBase-col1-{{#paramCase}}{{field_name}}{{\/paramCase}}')), findsOneWidget);
+      });
+
+      testWidgets('{{#upperCase}}{{abbreviation}}{{\/upperCase}}IAEV {{#camelCase}}{{field_name}}{{\/camelCase}} is disabled when loading', (tester) async {
+        when(() => mock{{#pascalCase}}{{name_plural}}{{\/pascalCase}}ItemAddEditBloc.state).thenReturn(
+          const {{#pascalCase}}{{name_plural}}{{\/pascalCase}}ItemAddEditState(status: {{#pascalCase}}{{name_plural}}{{\/pascalCase}}ItemAddEditStatus.submitting),
+        );
+        await tester.pumpApp(buildSubject());
+
+        final textField = tester.widget<TextFormField>(find.byKey(const Key('\$key{{#pascalCase}}{{name_plural}}{{\/pascalCase}}WidgetItemAddEditBase-col1-{{#paramCase}}{{field_name}}{{\/paramCase}}')));
+        expect(textField.enabled, false);
+      });
+
+      testWidgets(
+        'adds {{#pascalCase}}{{name_plural}}{{\/pascalCase}}ItemAddEdit{{#pascalCase}}{{field_name}}{{\/pascalCase}}ChangedEvent '
+        'to {{#pascalCase}}{{name_plural}}{{\/pascalCase}}ItemAddEditBloc '
+        'when a new value is entered',
+        (tester) async {
+          await tester.pumpApp(buildSubject());
+          await tester.enterText(
+            find.byKey(const Key('\$key{{#pascalCase}}{{name_plural}}{{\/pascalCase}}WidgetItemAddEditBase-col1-{{#paramCase}}{{field_name}}{{\/paramCase}}')),
+            'new {{#camelCase}}{{field_name}}{{\/camelCase}}',
+          );
+
+          verify(() => mock{{#pascalCase}}{{name_plural}}{{\/pascalCase}}ItemAddEditBloc
+              .add(const {{#pascalCase}}{{name_plural}}{{\/pascalCase}}ItemAddEdit{{#pascalCase}}{{field_name}}{{\/pascalCase}}ChangedEvent('new {{#camelCase}}{{field_name}}{{\/camelCase}}')))
+              .called(1);
+        },
+      );
+    });{{^is_last}}\n\n    {{\/is_last}}{{\/fields}}
+    \/\/\*\* fields end \*\*\/\/

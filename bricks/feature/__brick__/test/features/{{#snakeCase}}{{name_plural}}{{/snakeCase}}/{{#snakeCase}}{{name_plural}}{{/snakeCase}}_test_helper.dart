@@ -42,27 +42,55 @@ class Fake{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditEvent extends 
 
 class Fake{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item extends Fake implements {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model {}
 
-const String sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemId = '61011f6d4558ebe4f88acccc';
-const sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddData = {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(
-    description: 'description-sample', content: 'sample content');
-const sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddDataExpected = {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(
-    id: sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemId, description: 'description-sample', content: 'sample content', createdAt: "2021-01-01T21:21:21.21Z", updatedAt: "2021-01-01T21:21:21.21Z");
+{{#snakeCase}}{{name_plural}}{{/snakeCase}}RegisterFallbackValue() => registerFallbackValue(const {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(description: '111'));
+
+const mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item = {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(
+  id: '1',
+  {{#fields}}{{#camelCase}}{{field_name}}{{/camelCase}}: '{{#camelCase}}{{field_name}}{{/camelCase}} 1',{{^is_last}}
+  {{/is_last}}{{/fields}}
+  updatedAt: '2021-09-22T07:06:52.604Z'
+);
+const mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}Items = [mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item];
+
+const String sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemId = r'61011f6d4558ebe4f88acccc';
+const item{{#pascalCase}}{{name_plural}}{{/pascalCase}}AddTestData = {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(
+    {{#fields}}{{#camelCase}}{{field_name}}{{/camelCase}}: '{{#camelCase}}{{field_name}}{{/camelCase}}-sample'{{^is_last}}, {{/is_last}}{{/fields}});
+final item{{#pascalCase}}{{name_plural}}{{/pascalCase}}UpdateTestData = item{{#pascalCase}}{{name_plural}}{{/pascalCase}}AddTestData.copyWith(id: '111');
+const item{{#pascalCase}}{{name_plural}}{{/pascalCase}}AddTestDataExpected = {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(
+    id: sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemId, {{#fields}}{{#camelCase}}{{field_name}}{{/camelCase}}: '{{#camelCase}}{{field_name}}{{/camelCase}}-sample'{{^is_last}}, {{/is_last}}{{/fields}}, createdAt: "2021-01-01T21:21:21.21Z", updatedAt: "2021-01-01T21:21:21.21Z");
+
+const sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}Data = '''[
+  {
+    "_id": {"\$oid":"61011f6d4558ebe4f88abc1"},
+    {{#fields}}"{{#camelCase}}{{field_name}}{{/camelCase}}": "test {{#camelCase}}{{field_name}}{{/camelCase}} 1", {{^is_last}}
+    {{/is_last}}{{/fields}}
+  },
+  {
+    "_id": {"\$oid":"61011f6d4558ebe4f88abc2"},
+    {{#fields}}"{{#camelCase}}{{field_name}}{{/camelCase}}": "test {{#camelCase}}{{field_name}}{{/camelCase}} 2", {{^is_last}}
+    {{/is_last}}{{/fields}}
+  },
+  {
+    "_id": {"\$oid":"61011f6d4558ebe4f88abc3"},
+    {{#fields}}"{{#camelCase}}{{field_name}}{{/camelCase}}": "test {{#camelCase}}{{field_name}}{{/camelCase}} 3", {{^is_last}}
+    {{/is_last}}{{/fields}}
+  }
+]''';
+
 
 List<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Model> {{#snakeCase}}{{name_plural}}{{/snakeCase}}TestData({int count = 5}) => List.generate(
   count,
-  (i) => {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(id: '${i+1}', description: 'test description ${i+1}', content: 'test content ${i+1}')
+  (i) => {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(id: '${i+1}', {{#fields}}{{#camelCase}}{{field_name}}{{/camelCase}}: 'test {{#camelCase}}{{field_name}}{{/camelCase}} ${i+1}'{{^is_last}}, {{/is_last}}{{/fields}})
 );
 
 List<Map<String, dynamic>> {{#snakeCase}}{{name_plural}}{{/snakeCase}}TestMapData({int count = 5}) => List.generate(
   count,
-  // (i) => {'_id': '${i+1}', 'description': 'test description ${i+1}', 'content': 'test content ${i+1}'}
-  (i) => {'id': '${i+1}', 'description': 'test description ${i+1}', 'content': 'test content ${i+1}'}
+  (i) => {'id': '${i+1}', {{#fields}}'{{#camelCase}}{{field_name}}{{/camelCase}}': 'test {{#camelCase}}{{field_name}}{{/camelCase}} ${i+1}'{{^is_last}}, {{/is_last}}{{/fields}}}
 );
 
-// "_id":{"$oid":"61011f6d4558ebe4f88acccc"}
 List<Map<String, dynamic>> {{#snakeCase}}{{name_plural}}{{/snakeCase}}MongoTestMapData({int count = 5}) => List.generate(
   count,
-  (i) => {'_id': {r"$oid": r"61011f6d4558ebe4f88acccc"}, 'description': 'test description ${i+1}', 'content': 'test content ${i+1}'}
+  (i) => {'_id': {r"$oid": r"61011f6d4558ebe4f88acccc"}, {{#fields}}'{{#camelCase}}{{field_name}}{{/camelCase}}': 'test {{#camelCase}}{{field_name}}{{/camelCase}} ${i+1}'{{^is_last}}, {{/is_last}}{{/fields}}}
 );
 
 extension {{#pascalCase}}{{name_plural}}{{/pascalCase}}AddedFunctionality on WidgetTester {
@@ -141,11 +169,11 @@ void setUpHttpClientGet{{#pascalCase}}{{name_plural}}{{/pascalCase}}Success200({
 }
 
 
-void setUpHttpClientCreate{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemSuccess200({String url = url{{#pascalCase}}{{name_plural}}{{/pascalCase}}, {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model data = sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddData}) {
+void setUpHttpClientCreate{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemSuccess200({String url = url{{#pascalCase}}{{name_plural}}{{/pascalCase}}, {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model data = item{{#pascalCase}}{{name_plural}}{{/pascalCase}}AddTestData}) {
   arrangeHttpClientPostReturnSuccess200(url: url, response: fixture('{{#snakeCase}}{{name_plural}}{{/snakeCase}}_item_create_response_fixture.json'));
 }
 
-void setUpHttpClientUpdate{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemSuccess204({String url = '$url{{#pascalCase}}{{name_plural}}{{/pascalCase}}/$sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemId', {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model data = sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddData}) {
+void setUpHttpClientUpdate{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemSuccess204({String url = '$url{{#pascalCase}}{{name_plural}}{{/pascalCase}}/$sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemId', {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model data = item{{#pascalCase}}{{name_plural}}{{/pascalCase}}AddTestData}) {
   arrangeHttpClientPutReturnSuccess204(url: url, response: '');
 }
 
@@ -173,4 +201,32 @@ extension TaskX<T extends Either<Object, U>, U> on Task<T> {
 //     }
 //   }));
 // }
+}
+
+/// Values must be different than the ones in sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState
+const sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemInitialData = {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(
+  id: '1',
+  {{#fields}}{{#camelCase}}{{field_name}}{{/camelCase}}: '{{#camelCase}}{{field_name}}{{/camelCase}} 1',{{^is_last}}
+  {{/is_last}}{{/fields}}
+);
+
+const sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditStateObjectList = <Object?>[
+  {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditStatus.initial,
+  sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemInitialData,
+  '',
+  {{#fields}}'{{#camelCase}}{{field_name}}{{/camelCase}}',{{^is_last}}
+  {{/is_last}}{{/fields}}
+];
+
+/// Values must be different than the ones in sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemInitialData
+{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState({
+  {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditStatus status = {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditStatus.initial,
+  {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model? initialData
+}) {
+  return {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditState(
+    status: status,
+    initialData: initialData,
+    {{#fields}}{{#camelCase}}{{field_name}}{{/camelCase}}: '{{#camelCase}}{{field_name}}{{/camelCase}}',{{^is_last}}
+    {{/is_last}}{{/fields}}
+  );
 }

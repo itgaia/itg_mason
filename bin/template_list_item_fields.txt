@@ -1,0 +1,26 @@
+\/\/\*\* fields except title start \*\*\/\/
+{{#fields}}{{^is_title}}class _{{#pascalCase}}{{field_name}}{{\/pascalCase}} extends StatelessWidget {
+  final {{#pascalCase}}{{name_plural}}{{\/pascalCase}}Model item;
+  const _{{#pascalCase}}{{field_name}}{{\/pascalCase}}({Key? key, required this.item}) : super(key: key);
+
+  \@override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 48,
+      width: MediaQuery.of(context).size.width,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Text(
+            item.{{#camelCase}}{{field_name}}{{\/camelCase}},
+            style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
+            key: Key(keyNameGenerator(
+                keyElement: KeyElement.widget,
+                feature: [keyAbbrFeature{{#pascalCase}}{{name_plural}}{{\/pascalCase}}, keyAbbrListItem],
+                id: item.id,
+                field: '{{#camelCase}}{{field_name}}{{\/camelCase}}'))
+        ),
+      ),
+    );
+  }
+}{{\/is_title}}{{^is_last}}\n\n{{\/is_last}}{{\/fields}}
+\/\/\*\* fields except title end \*\*\/\/

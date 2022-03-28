@@ -92,6 +92,7 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}RepositoryImpl implements {{#
             // if ({{#snakeCase}}{{name_plural}}{{/snakeCase}}Item.id == null) {
             //   // TODO: Why there is no setter in {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model?
             //   // There isn’t a setter named 'content' in class '_${{#pascalCase}}{{name_plural}}{{/pascalCase}}Mode
+            //******** here there is the problem with mason {{{ *******************
             //   {{#snakeCase}}{{name_plural}}{{/snakeCase}}.add({{#snakeCase}}{{name_plural}}{{/snakeCase}}Item.copyWith(id: '${{{#snakeCase}}{{name_plural}}{{/snakeCase}}.length+1}'));
             // } else {
             //   {{#snakeCase}}{{name_plural}}{{/snakeCase}}.add({{#snakeCase}}{{name_plural}}{{/snakeCase}}Item);
@@ -101,6 +102,7 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}RepositoryImpl implements {{#
               {{#snakeCase}}{{name_plural}}{{/snakeCase}}[{{#snakeCase}}{{name_plural}}{{/snakeCase}}.indexWhere((element) => element.id == {{#snakeCase}}{{name_plural}}{{/snakeCase}}Item.id)] = {{#snakeCase}}{{name_plural}}{{/snakeCase}}Item;
             } else {
               msgLogInfo('create item...');
+              //******** here there is the problem with mason {{{ *******************
               {{#snakeCase}}{{name_plural}}{{/snakeCase}}.add({{#snakeCase}}{{name_plural}}{{/snakeCase}}Item.copyWith(id: '${{{#snakeCase}}{{name_plural}}{{/snakeCase}}.length+1}'));
             }
             await localDataSource.cache{{#pascalCase}}{{name_plural}}{{/pascalCase}}({{#snakeCase}}{{name_plural}}{{/snakeCase}});

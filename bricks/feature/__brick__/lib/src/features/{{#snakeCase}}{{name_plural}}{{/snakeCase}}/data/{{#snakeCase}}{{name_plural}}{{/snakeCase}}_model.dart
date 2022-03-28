@@ -13,8 +13,12 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model with _${{#pascalCase}}{
     // TODO: How can I refactor it in order to use the useMongoDbBackend?
     // @ObjectIdJsonConverter() @JsonKey(name: '_id', toJson: omitEmpty, includeIfNull: false) String? id,
     @JsonKey(toJson: omitEmpty, includeIfNull: false) String? id,
-    @JsonKey(toJson: omitEmpty) required String description,
-    @Default('') @JsonKey(toJson: omitEmpty, includeIfNull: false) String content,
+    //** fields start **//
+    {{#fields}}{{#required}}@JsonKey(toJson: omitEmpty) required String {{#snakeCase}}{{field_name}}{{/snakeCase}},{{/required}}
+    {{^required}}@Default('') @JsonKey(toJson: omitEmpty, includeIfNull: false) String {{#snakeCase}}{{field_name}}{{/snakeCase}},{{/required}}{{^is_last}}
+
+    {{/is_last}}{{/fields}}
+    //** fields end **//
     @Default('') @JsonKey(name: 'created_at', toJson: omitEmpty, includeIfNull: false) String createdAt,
     @Default('') @JsonKey(name: 'updated_at', toJson: omitEmpty, includeIfNull: false) String updatedAt,
   }) = _{{#pascalCase}}{{name_plural}}{{/pascalCase}}Model;
@@ -24,12 +28,14 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model with _${{#pascalCase}}{
 
   String get title => description;
 
+  static const List<String> fields = ['id', {{#fields}}'{{#camelCase}}{{field_name}}{{/camelCase}}', {{/fields}} 'createdAt', 'updatedAt'];
+
   // TODO: refactor - how can I access properties by name?
   dynamic getProp(String key) => <String, dynamic>{
     'id': id,
     'title': title,
-    'description': description,
-    'content': content,
+    {{#fields}}'{{#camelCase}}{{field_name}}{{/camelCase}}': {{#camelCase}}{{field_name}}{{/camelCase}},{{^is_last}}
+    {{/is_last}}{{/fields}}
     'createdAt': createdAt,
     'updatedAt': updatedAt,
   }[key];
@@ -37,8 +43,8 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model with _${{#pascalCase}}{
   dynamic operator[](prop) {
     if (prop == "id") { return id; }
     else if (prop == "title") { return title; }
-    else if (prop == "description") { return description; }
-    else if (prop == "content") { return content; }
+    {{#fields}}else if (prop == "{{#camelCase}}{{field_name}}{{/camelCase}}") { return {{#camelCase}}{{field_name}}{{/camelCase}}; }{{^is_last}}
+    {{/is_last}}{{/fields}}
     else if (prop == "createdAt") { return createdAt; }
     else if (prop == "updatedAt") { return updatedAt; }
     else { throw('unknown property: $prop'); }
