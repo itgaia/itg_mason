@@ -1,4 +1,6 @@
 bricks:
+  ror_app_basic_aws:
+    path: ./bricks/ror_app_basic_aws
   app_basic:
     path: ./bricks/app_basic
   feature:

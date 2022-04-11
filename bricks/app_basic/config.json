@@ -1,0 +1,8 @@
+{
+  "app_name": "ItgMushManager",
+  "app_descr": "ITG Mushroom Manager",
+  "app_path": "/Users/aaon/dev/flutter/md/itg_mush_manager",
+  "features": [
+    {"feature_name": "links", "is_last": false}
+  ]
+}
