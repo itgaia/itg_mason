@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../app/constants.dart';
-import '../../app/custom_button.dart';
 import '../../common/helper.dart';
 import '../../common/itg_localization.dart';
-import '../links/domain/links_helper.dart';
-import '../links/presentation/main/links_page.dart';
-import '../notes/domain/notes_helper.dart';
-import '../notes/presentation/main/notes_page.dart';
 import '../settings/settings_view.dart';
 
 class HomePage extends StatelessWidget {
@@ -39,34 +34,7 @@ class HomePage extends StatelessWidget {
             // widgetText(context, ItgLocalization.tr('welcomeMessage2'), key: keyTextHomePageWelcomeMessage2),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                CustomButton(
-                    title: ItgLocalization.tr('Notes'),
-                    color: Colors.cyan,
-                    onPressed: () {
-                      // TODO: Use restorablePushNamed...
-                      // Navigator.restorablePushNamed(
-                      //   context,
-                      //   NotesPage.routeName,
-                      // );
-                      Navigator.push(
-                        context,
-                        NotesPage.route(),
-                      );
-                    },
-                    key: keyButtonNotesPage
-                ),
-                CustomButton(
-                    title: ItgLocalization.tr('Links'),
-                    color: Colors.cyan,
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        LinksPage.route(),
-                      );
-                    },
-                    key: keyButtonLinksPage
-                ),
+              children: const [
               ],
             ),
           ],

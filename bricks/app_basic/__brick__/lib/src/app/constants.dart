@@ -37,8 +37,6 @@ const keyAbbrAddEdit = 'ae';
 // key name abbreviation constants for source element - unique
 const keyAbbrSourceWidget = 'w';
 
-const appTitleFull = 'Dev Framework Tutorial (part 1)';
-
 const textButtonSnackbarDeleteUndo = 'Undo';
 const textHomePageWelcomeMessage1 = 'What a Wonderful World for All of Us...';
 const textHomePageWelcomeMessage2 = '(Click the menu up-right for the available options)';

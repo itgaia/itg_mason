@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:mockingjay/mockingjay.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:dev_framework_tutorial/src/app/app.dart';
-import 'package:dev_framework_tutorial/src/app/constants.dart';
-import 'package:dev_framework_tutorial/src/app/custom_button.dart';
-import 'package:dev_framework_tutorial/src/app/injection_container.dart';
-import 'package:dev_framework_tutorial/src/common/helper.dart';
-import 'package:dev_framework_tutorial/src/features/settings/settings_service.dart';
+import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/app/app.dart';
+import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/app/constants.dart';
+import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/app/custom_button.dart';
+import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/app/injection_container.dart';
+import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/common/helper.dart';
+import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/features/settings/settings_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MockHttpClient extends Mock implements http.Client {}

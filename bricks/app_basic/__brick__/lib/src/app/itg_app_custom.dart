@@ -6,16 +6,12 @@ import '../common/helper.dart';
 import '../common/itg_custom.dart';
 import '../common/itg_localization.dart';
 
+const appTitleFull = '{{app_descr}}';
+
 Map<String, Map<String, String>> _localizedValues = {
   'en': {
-    'appWindowTitle': 'DEVFWRK_TUT_P1',
-    'appTitle': 'Dev Framework Tutorial (part 1)',
-    'Notes': 'Notes',
-    'Note': 'Note',
-    'NotesItem': 'Note',
-    'Links': 'Links',
-    'Link': 'Link',
-    'LinksItem': 'Link',
+    'appWindowTitle': '{{#pascalCase}}{{app_name}}{{/pascalCase}}',
+    'appTitle': appTitleFull,
   },
 };
 
