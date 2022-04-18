@@ -1,9 +1,11 @@
 bricks:
   ror_app_basic_aws:
     path: ./bricks/ror_app_basic_aws
-  app_basic:
-    path: ./bricks/app_basic
-  feature:
-    path: ./bricks/feature
+  fl_app_basic:
+    path: ./bricks/fl_app_basic
+  fl_common:
+    path: ./bricks/fl_common
+  fl_feature:
+    path: ./bricks/fl_feature
   test_template:
     path: ./bricks/test_template

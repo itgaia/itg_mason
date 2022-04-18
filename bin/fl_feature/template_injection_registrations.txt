@@ -1,0 +1,38 @@
+  \/\/\*\* registrations \*\*\/\/
+
+  \/\/\*\* {feature_name_pc} feature - registrations start \*\*\/\/
+  if (!sl.isRegistered<{feature_name_pc}Bloc>()) {
+    sl.registerFactory(() => {feature_name_pc}Bloc(usecase: sl()));
+  }
+  if (!sl.isRegistered<{feature_name_pc}ItemAddEditBloc>()) {
+    sl.registerFactory(() => {feature_name_pc}ItemAddEditBloc(save{feature_name_pc}ItemUsecase: sl(), initialData: null));
+  }
+  if (!sl.isRegistered<Get{feature_name_pc}Usecase>()) {
+    sl.registerLazySingleton(() => Get{feature_name_pc}Usecase(sl()));
+  }
+  if (!sl.isRegistered<Save{feature_name_pc}ItemUsecase>()) {
+    sl.registerLazySingleton(() => Save{feature_name_pc}ItemUsecase(sl()));
+  }
+  if (!sl.isRegistered<Delete{feature_name_pc}ItemUsecase>()) {
+    sl.registerLazySingleton(() => Delete{feature_name_pc}ItemUsecase(sl()));
+  }
+  if (!sl.isRegistered<{feature_name_pc}Repository>()) {
+    sl.registerLazySingleton<{feature_name_pc}Repository>(
+      () => {feature_name_pc}RepositoryImpl(
+        remoteDataSource: sl(),
+        localDataSource: sl(),
+        \/\/ networkInfo: sl(),
+      ));
+  }
+  if (!sl.isRegistered<{feature_name_pc}RemoteDataSource>()) {
+    sl.registerLazySingleton<{feature_name_pc}RemoteDataSource>(
+      () => {feature_name_pc}RemoteDataSourceImpl(client: sl()));
+  }
+  if (!sl.isRegistered<{feature_name_pc}LocalDataSource>()) {
+    sl.registerLazySingleton<{feature_name_pc}LocalDataSource>(
+      () => {feature_name_pc}LocalDataSourceImpl());
+  }
+  if (!sl.isRegistered<{feature_name_pc}Support>()) {
+    sl.registerLazySingleton(() => {feature_name_pc}Support());
+  }
+  \/\/\*\* {feature_name_pc} feature - registrations end \*\*\/\/

@@ -1,0 +1,4 @@
+    \/\/\*\* fields start \*\*\/\/
+    {{#fields}}{{#required}}\@JsonKey(toJson: omitEmpty) required String {{#camelCase}}{{field_name}}{{\/camelCase}},{{\/required}}
+    {{^required}}\@Default('') \@JsonKey(toJson: omitEmpty, includeIfNull: false) String {{#camelCase}}{{field_name}}{{\/camelCase}},{{\/required}}{{^is_last}}\n\n    {{\/is_last}}{{\/fields}}
+    \/\/\*\* fields end \*\*\/\/

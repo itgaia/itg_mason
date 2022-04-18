@@ -1,0 +1,44 @@
+import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/app/constants.dart';
+import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/app/itg_app_custom.dart';
+import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/features/home/home_page.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+
+import '../../common/test_helper.dart';
+
+//** imports **//
+
+void main() {
+  setUp(() async {
+    await initializeAppForTesting();
+  });
+
+  group('Home page widget tests', () {
+    test('correct route name', () {
+      expect(HomePage.routeName, '/');
+    });
+
+    testWidgets('page class', (widgetTester) async {
+      await widgetTester.testWidgetPageClass<HomePage>();
+    });
+
+    testWidgets('page title', (widgetTester) async {
+      await widgetTester.testWidgetPageTitle(appTitleFull);
+    });
+
+    testWidgets('welcome messages', (widgetTester) async {
+      await widgetTester.testWidgetText(textHomePageWelcomeMessage1, keyTextHomePageWelcomeMessage1);
+      // await widgetTester.testWidgetText(textHomePageWelcomeMessage2, keyTextHomePageWelcomeMessage2);
+    });
+
+    testWidgets("dark theme", (WidgetTester widgetTester) async {
+      await widgetTester.testWidgetTheme(brightness: Brightness.dark);
+    }, skip: true);
+
+    testWidgets("light theme", (WidgetTester widgetTester) async {
+      await widgetTester.testWidgetTheme(brightness: Brightness.light);
+    }, skip: true);
+
+    //** feature buttons tests **//
+  });
+}

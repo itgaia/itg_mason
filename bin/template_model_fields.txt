@@ -1,4 +1,0 @@
-    \/\/\*\* fields start \*\*\/\/
-    {{#fields}}{{#required}}\@JsonKey(toJson: omitEmpty) required String {{#snakeCase}}{{field_name}}{{\/snakeCase}},{{\/required}}
-    {{^required}}\@Default('') \@JsonKey(toJson: omitEmpty, includeIfNull: false) String {{#snakeCase}}{{field_name}}{{\/snakeCase}},{{\/required}}{{^is_last}}\n\n    {{\/is_last}}{{\/fields}}
-    \/\/\*\* fields end \*\*\/\/

@@ -1,0 +1,26 @@
+{
+  "name_singular": "lyric",
+  "name_plural": "lyrics",
+  "abbreviation": "lr",
+  "fields_length": 3,
+  "fields": [
+    {
+      "field_name": "description", "kind": "field", "type": "string", "label": "Description",
+      "required": true, "empty_value": "''", "max_length": 64, "is_title": true,
+      "is_last": false, "is_last_required": false
+    },
+    {
+      "field_name": "artist", "kind": "field", "type": "string", "label": "Artist",
+      "required": true, "empty_value": "''", "max_length": 64, "is_title": false,
+      "is_last": false, "is_last_required": true
+    },
+    {
+      "field_name": "notes", "kind": "field", "type": "string", "label": "Notes",
+      "required": false, "empty_value": "''", "max_length": 300, "is_ml": true,
+      "is_title": false, "is_last": true, "is_last_required": false
+    }
+  ],
+  "test_field_1": "description",
+  "test_field_2": "artist",
+  "show_items_in_screen": 4
+}

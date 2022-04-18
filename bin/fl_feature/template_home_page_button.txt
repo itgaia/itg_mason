@@ -1,0 +1,15 @@
+                \/\/\*\* feature buttons \*\*\/\/
+
+                \/\/\*\* {feature_name_pc} feature - button start \*\*\/\/
+                CustomButton(
+                    title: ItgLocalization.tr('{feature_name_pc}'),
+                    color: Colors.cyan,
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        {feature_name_pc}Page.route(),
+                      );
+                    },
+                    key: keyButton{feature_name_pc}Page
+                ),
+                \/\/\*\* {feature_name_pc} feature - button end \*\*\/\/

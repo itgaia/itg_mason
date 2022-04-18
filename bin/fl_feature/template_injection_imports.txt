@@ -1,0 +1,15 @@
+\/\/\*\* imports \*\*\/\/
+
+\/\/\*\* {feature_name_pc} feature - imports start \*\*\/\/
+import '..\/features\/{feature_name}\/data\/{feature_name}_local_datasource.dart';
+import '..\/features\/{feature_name}\/data\/{feature_name}_model.dart';
+import '..\/features\/{feature_name}\/data\/{feature_name}_remote_datasource.dart';
+import '..\/features\/{feature_name}\/data\/{feature_name}_repository_impl.dart';
+import '..\/features\/{feature_name}\/domain\/delete_{feature_name}_item_usecase.dart';
+import '..\/features\/{feature_name}\/domain\/get_{feature_name}_usecase.dart';
+import '..\/features\/{feature_name}\/domain\/{feature_name}_repository.dart';
+import '..\/features\/{feature_name}\/domain\/{feature_name}_support.dart';
+import '..\/features\/{feature_name}\/domain\/save_{feature_name}_item_usecase.dart';
+import '..\/features\/{feature_name}\/presentation\/add_edit\/bloc\/{feature_name}_item_add_edit_bloc.dart';
+import '..\/features\/{feature_name}\/presentation\/main\/bloc\/{feature_name}_bloc.dart';
+\/\/\*\* {feature_name_pc} feature - imports end \*\*\/\/

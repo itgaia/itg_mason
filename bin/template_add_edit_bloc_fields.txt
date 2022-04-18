@@ -1,8 +1,0 @@
-  \/\/\*\* fields start \*\*\/\/
-  {{#fields}}void _on{{#pascalCase}}{{field_name}}{{\/pascalCase}}Changed(
-      {{#pascalCase}}{{name_plural}}{{\/pascalCase}}ItemAddEdit{{#pascalCase}}{{field_name}}{{\/pascalCase}}ChangedEvent event,
-      Emitter<{{#pascalCase}}{{name_plural}}{{\/pascalCase}}ItemAddEditState> emit,
-  ) {
-    emit(state.copyWith({{#snakeCase}}{{field_name}}{{\/snakeCase}}: event.{{#snakeCase}}{{field_name}}{{\/snakeCase}}));
-  }{{^is_last}}\n\n  {{\/is_last}}{{\/fields}}
-  \/\/\*\* fields end \*\*\/\/

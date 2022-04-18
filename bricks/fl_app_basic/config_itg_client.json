@@ -1,0 +1,10 @@
+{
+  "app_name": "ItgClient",
+  "app_descr": "ITG Client",
+  "app_path": "/Users/aaon/dev/flutter/itg/itg_client",
+  "features": [
+    {"feature_name": "links", "is_last": false},
+    {"feature_name": "notes", "is_last": false},
+    {"feature_name": "tasks", "is_last": true}
+  ]
+}

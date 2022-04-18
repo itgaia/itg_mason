@@ -1,0 +1,41 @@
+{
+  "name_singular": "task",
+  "name_plural": "tasks",
+  "abbreviation": "ts",
+  "fields_length": 6,
+  "fields": [
+    {
+      "field_name": "description", "kind": "field", "type": "string", "label": "Description",
+      "required": true, "empty_value": "''", "max_length": 64, "is_title": true,
+      "is_last": false, "is_last_required": true
+    },
+    {
+      "field_name": "dtDue", "kind": "field", "type": "date", "label": "Due Date",
+      "required": false, "empty_value": "''", "max_length": 10, "is_title": false,
+      "is_last": false, "is_last_required": false
+    },
+    {
+      "field_name": "isReminder", "kind": "field", "type": "boolean", "label": "Reminder",
+      "required": false, "empty_value": "''", "max_length": 24, "is_title": false,
+      "is_last": false, "is_last_required": false
+    },
+    {
+      "field_name": "state", "kind": "field", "type": "string", "label": "State",
+      "required": false, "empty_value": "''", "max_length": 24, "is_title": false,
+      "is_last": false, "is_last_required": false
+    },
+    {
+      "field_name": "priorityLevel", "kind": "field", "type": "string", "label": "Priority Level",
+      "required": false, "empty_value": "''", "max_length": 24, "is_title": false,
+      "is_last": false, "is_last_required": false
+    },
+    {
+      "field_name": "notes", "kind": "field", "type": "string", "label": "Notes",
+      "required": false, "empty_value": "''", "max_length": 1024, "is_ml": true,
+      "is_title": false, "is_last": true, "is_last_required": false
+    }
+  ],
+  "test_field_1": "description",
+  "test_field_2": "notes",
+  "show_items_in_screen": 2
+}

@@ -1,0 +1,7 @@
+    \/\/\*\* translations el \*\*\/\/
+
+    \/\/\*\* {feature_name_pc} feature translations el start \*\*\/\/
+    '{feature_name_pc}': _localizedValues['en']!['{feature_name_pc}']!,
+    '{feature_name_pc_singular}': _localizedValues['en']!['{feature_name_pc_singular}']!,
+    '{feature_name_pc}Item': _localizedValues['en']!['{feature_name_pc_singular}']!,
+    \/\/\*\* {feature_name_pc} feature translations el end \*\*\/\/

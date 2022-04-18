@@ -1,0 +1,13 @@
+    \/\/\*\* fields start \*\*\/\/
+    {{#fields}}group('{{#pascalCase}}{{name_plural}}{{\/pascalCase}}ItemAddEdit{{#pascalCase}}{{field_name}}{{\/pascalCase}}ChangedEvent', () {
+      blocTest<{{#pascalCase}}{{name_plural}}{{\/pascalCase}}ItemAddEditBloc, {{#pascalCase}}{{name_plural}}{{\/pascalCase}}ItemAddEditState>(
+        'emits new state with updated {{#camelCase}}{{field_name}}{{\/camelCase}}',
+        build: buildBloc,
+        act: (bloc) =>
+            bloc.add(const {{#pascalCase}}{{name_plural}}{{\/pascalCase}}ItemAddEdit{{#pascalCase}}{{field_name}}{{\/pascalCase}}ChangedEvent('new {{#camelCase}}{{field_name}}{{\/camelCase}}')),
+        expect: () => const [
+          {{#pascalCase}}{{name_plural}}{{\/pascalCase}}ItemAddEditState({{#camelCase}}{{field_name}}{{\/camelCase}}: 'new {{#camelCase}}{{field_name}}{{\/camelCase}}'),
+        ],
+      );
+    });{{^is_last}}\n\n    {{\/is_last}}{{\/fields}}
+    \/\/\*\* fields end \*\*\/\/

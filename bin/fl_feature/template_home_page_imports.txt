@@ -1,0 +1,6 @@
+\/\/\*\* imports \*\*\/\/
+
+\/\/\*\* {feature_name_pc} feature - imports start \*\*\/\/
+import '..\/{feature_name}\/domain\/{feature_name}_helper.dart';
+import '..\/{feature_name}\/presentation\/main\/{feature_name}_page.dart';
+\/\/\*\* {feature_name_pc} feature - imports end \*\*\/\/

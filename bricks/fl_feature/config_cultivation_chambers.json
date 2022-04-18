@@ -1,0 +1,21 @@
+{
+  "name_singular": "cultivation_chamber",
+  "name_plural": "cultivation_chambers",
+  "abbreviation": "cc",
+  "fields_length": 2,
+  "fields": [
+    {
+      "field_name": "code", "kind": "field", "type": "string", "label": "Code",
+      "required": true, "empty_value": "''", "max_length": 64, "is_title": true,
+      "is_last": false, "is_last_required": false
+    },
+    {
+      "field_name": "notes", "kind": "field", "type": "string", "label": "Notes",
+      "required": false, "empty_value": "''", "max_length": 1024, "is_ml": true,
+      "is_title": false, "is_last": true, "is_last_required": false
+    }
+  ],
+  "test_field_1": "code",
+  "test_field_2": "notes",
+  "show_items_in_screen": 4
+}

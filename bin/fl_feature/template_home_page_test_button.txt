@@ -1,0 +1,13 @@
+    \/\/\*\* feature buttons tests \*\*\/\/
+
+    \/\/\*\* {feature_name_pc} feature - button test start \*\*\/\/
+    \/\/ TODO: The second button test fails if run all tests... why?
+    testWidgets('{feature_name_pc} button', (widgetTester) async {
+      await widgetTester.pumpWidget(const App());
+      await widgetTester.pumpAndSettle();
+      await widgetTester.pump();
+      await widgetTester.testNavigateToPage<{feature_name_pc}Page>(keyButton{feature_name_pc}Page);
+      await widgetTester.pumpAndSettle();
+      await widgetTester.pump();
+    });
+    \/\/\*\* {feature_name_pc} feature - button test end \*\*\/\/
