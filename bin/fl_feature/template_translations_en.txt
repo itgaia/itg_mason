@@ -1,7 +1,7 @@
     \/\/\*\* translations en \*\*\/\/
 
     \/\/\*\* {feature_name_pc} feature translations en start \*\*\/\/
-    '{feature_name_pc}': '{feature_name_pc}',
-    '{feature_name_pc_singular}': '{feature_name_pc_singular}',
-    '{feature_name_pc}Item': '{feature_name_pc_singular}',
+    '{feature_name_pc}': '{feature_name_tc}',
+    '{feature_name_pc_singular}': '{feature_name_tc_singular}',
+    '{feature_name_pc}Item': '{feature_name_tc_singular}',
     \/\/\*\* {feature_name_pc} feature translations en end \*\*\/\/

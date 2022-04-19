@@ -1,6 +1,6 @@
 \/\/\*\* imports \*\*\/\/
 
 \/\/\*\* {feature_name_pc} feature test - imports start \*\*\/\/
-import 'package:{app_name_cc}\/src\/features\/{feature_name}\/domain\/{feature_name}_helper.dart';
-import 'package:{app_name_cc}\/src\/features\/{feature_name}\/presentation\/main\/{feature_name}_page.dart';
+import 'package:{app_name_sc}\/src\/features\/{feature_name}\/domain\/{feature_name}_helper.dart';
+import 'package:{app_name_sc}\/src\/features\/{feature_name}\/presentation\/main\/{feature_name}_page.dart';
 \/\/\*\* {feature_name_pc} feature test - imports end \*\*\/\/

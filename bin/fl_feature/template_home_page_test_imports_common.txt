@@ -1,5 +1,5 @@
 \/\/\*\* imports \*\*\/\/
 
 \/\/\*\* common imports start \*\*\/\/
-import 'package:{app_name_cc}\/src\/app\/app.dart';
+import 'package:{app_name_sc}\/src\/app\/app.dart';
 \/\/\*\* common imports end \*\*\/\/

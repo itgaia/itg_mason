@@ -1,4 +1,3 @@
     \/\/\*\* fields start \*\*\/\/
-    {{#fields}}{{#required}}\@JsonKey(toJson: omitEmpty) required String {{#camelCase}}{{field_name}}{{\/camelCase}},{{\/required}}
-    {{^required}}\@Default('') \@JsonKey(toJson: omitEmpty, includeIfNull: false) String {{#camelCase}}{{field_name}}{{\/camelCase}},{{\/required}}{{^is_last}}\n\n    {{\/is_last}}{{\/fields}}
+    {{#fields}}{{#required}}\@JsonKey(toJson: omitEmpty) required String {{#camelCase}}{{field_name}}{{\/camelCase}},\n    {{\/required}}{{^required}}\@Default('') \@JsonKey(toJson: omitEmpty, includeIfNull: false) String {{#camelCase}}{{field_name}}{{\/camelCase}},{{^is_last}}\n    {{\/is_last}}{{\/required}}{{\/fields}}
     \/\/\*\* fields end \*\*\/\/

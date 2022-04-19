@@ -1,5 +1,5 @@
-SRCAPPNAME=dev_framework_tutorial
-SRC=~/dev/flutter/_itg_tutorials/$SRCAPPNAME
+SRCAPPNAME=itg_mush_manager
+SRC=~/dev/flutter/md/$SRCAPPNAME
 TGT=~/dev/tools/itg_mason/bricks/fl_common/__brick__
 
 mkdir -p $TGT/test/common

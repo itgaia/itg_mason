@@ -7,17 +7,17 @@
     {
       "field_name": "description", "kind": "field", "type": "string", "label": "Description",
       "required": true, "empty_value": "''", "max_length": 64, "is_title": true,
-      "is_last": false, "is_last_required": false
+      "is_last": false, "is_last_required": false, "is_last_title": true
     },
     {
       "field_name": "url", "kind": "field", "type": "string", "label": "Url",
       "required": true, "empty_value": "''", "max_length": 1024, "is_title": false,
-      "is_last": false, "is_last_required": true
+      "is_last": false, "is_last_required": true, "is_last_title": false
     },
     {
       "field_name": "notes", "kind": "field", "type": "string", "label": "Notes",
-      "required": false, "empty_value": "''", "max_length": 1024, "is_ml": true,
-      "is_title": false, "is_last": true, "is_last_required": false
+      "required": false, "empty_value": "''", "max_length": 1024, "is_ml": true, "is_title": false,
+      "is_last": true, "is_last_required": false, "is_last_title": false
     }
   ],
   "test_field_1": "description",

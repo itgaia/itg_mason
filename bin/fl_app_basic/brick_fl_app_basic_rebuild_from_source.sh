@@ -1,5 +1,5 @@
-SRCAPPNAME=dev_framework_tutorial
-SRC=~/dev/flutter/_itg_tutorials/$SRCAPPNAME
+SRCAPPNAME=itg_mush_manager
+SRC=~/dev/flutter/md/$SRCAPPNAME
 SRCF=$SRC/lib/src/features
 SRCT=$SRC/test
 SRCTF=$SRCT/features

@@ -7,32 +7,32 @@
     {
       "field_name": "dt", "kind": "field", "type": "date", "label": "Date",
       "required": true, "empty_value": "''", "max_length": 24, "is_title": true,
-      "is_last": false, "is_last_required": true
+      "is_last": false, "is_last_required": true, "is_last_title": true
     },
     {
       "field_name": "project", "kind": "field", "type": "string", "label": "Project",
       "required": false, "empty_value": "''", "max_length": 64, "is_title": false,
-      "is_last": false, "is_last_required": false
+      "is_last": false, "is_last_required": false, "is_last_title": false
     },
     {
       "field_name": "customer", "kind": "field", "type": "string", "label": "Customer",
       "required": false, "empty_value": "''", "max_length": 64, "is_title": false,
-      "is_last": false, "is_last_required": false
+      "is_last": false, "is_last_required": false, "is_last_title": false
     },
     {
       "field_name": "timeSpend", "kind": "field", "type": "integer", "label": "Time Spend",
       "required": false, "empty_value": "''", "max_length": 24, "is_title": false,
-      "is_last": false, "is_last_required": false
+      "is_last": false, "is_last_required": false, "is_last_title": false
     },
     {
       "field_name": "timeCredit", "kind": "field", "type": "integer", "label": "Time Credit",
       "required": false, "empty_value": "''", "max_length": 24, "is_title": false,
-      "is_last": false, "is_last_required": false
+      "is_last": false, "is_last_required": false, "is_last_title": false
     },
     {
       "field_name": "notes", "kind": "field", "type": "string", "label": "Notes",
       "required": false, "empty_value": "''", "max_length": 1024, "is_ml": true,
-      "is_title": false, "is_last": true, "is_last_required": false
+      "is_title": false, "is_last": true, "is_last_required": false, "is_last_title": false
     }
   ],
   "test_field_1": "dt",

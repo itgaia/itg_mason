@@ -1,27 +1,25 @@
-# TODO: refactor ot - now just remove last char
-singular_form_for() {
-  var1=$(sed 's/.\{1\}$//' <<< "$1")
-  echo $var1
-}
-
 echo -e "\n***\n*** Build feature $FEATURE for $APP_FOLDER...\n***"
 APP_FOLDER="$TGT_PARENT_FOLDER/$APP_NAME"
 echo -e "\nWarning! All bellow variables must exist and be valid!"
 echo "  APP_NAME: $APP_NAME"
 echo "  TGT_PARENT_FOLDER: $TGT_PARENT_FOLDER"
 echo ""
-#FEATURE_PC=${FEATURE}
-#FEATURE_PC=$(echo "$FEATURE" | tr '[:lower:]' '[:upper:]')
-FEATURE_PC=$(echo "$FEATURE" | perl -ne 'print ucfirst')
-FEATURE_CC_SINGULAR=$(singular_form_for "$FEATURE")
-FEATURE_PC_SINGULAR=$(singular_form_for $FEATURE_PC)
-echo "CamelCase Feature name: $FEATURE"
-echo "PascalCase Feature name: $FEATURE_PC"
-echo "CamelCase Singular Feature name: $FEATURE_CC_SINGULAR"
-echo "PascalCase Singular Feature name: $FEATURE_PC_SINGULAR"
-
-echo "use as source the cultivation_chambers"
-exit
+FEATURE_SC=$FEATURE
+FEATURE_CC=$(ruby -e "require \"active_support\"; require \"active_support/core_ext/string\"; print \"$FEATURE_SC\".camelize(:lower)")
+FEATURE_PC=$(ruby -e "require \"active_support\"; require \"active_support/core_ext/string\"; print \"$FEATURE_SC\".camelize")
+FEATURE_TC=$(ruby -e "require \"active_support\"; require \"active_support/core_ext/string\"; print \"$FEATURE_SC\".titleize")
+FEATURE_SC_SINGULAR=$(ruby -e "require \"active_support\"; require \"active_support/core_ext/string\"; print \"$FEATURE_SC\".singularize")
+FEATURE_CC_SINGULAR=$(ruby -e "require \"active_support\"; require \"active_support/core_ext/string\"; print \"$FEATURE_CC\".singularize")
+FEATURE_PC_SINGULAR=$(ruby -e "require \"active_support\"; require \"active_support/core_ext/string\"; print \"$FEATURE_PC\".singularize")
+FEATURE_TC_SINGULAR=$(ruby -e "require \"active_support\"; require \"active_support/core_ext/string\"; print \"$FEATURE_TC\".singularize")
+echo "Snake Case Feature name: $FEATURE_SC"
+echo "Camel Case Feature name: $FEATURE_CC"
+echo "Pascal Case Feature name: $FEATURE_PC"
+echo "Title Case Feature name: $FEATURE_TC"
+echo "Snake Case Singular Feature name: $FEATURE_SC_SINGULAR"
+echo "Camel Case Singular Feature name: $FEATURE_CC_SINGULAR"
+echo "Pascal Case Singular Feature name: $FEATURE_PC_SINGULAR"
+echo "Title Case Singular Feature name: $FEATURE_TC_SINGULAR"
 
 echo -e "\n***\n*** Run mason make...\n***"
 mason make fl_feature --on-conflict overwrite \
@@ -31,33 +29,31 @@ mason make fl_feature --on-conflict overwrite \
 
 echo -e "\n***\n*** Do replacements...\n***"
 # temp solution until issue solved with mason and not replace vars in $FEATURE_repository_impl.dart
-sed -i '' "s%{{#snakeCase}}{{name_plural}}{{/snakeCase}}%$FEATURE%g" \
-  "$APP_FOLDER"/lib/src/features/$FEATURE/data/$FEATURE\_repository_impl.dart
-sed -i '' "s%{{#snakeCase}}{{name_singular}}{{/snakeCase}}%$FEATURE_CC_SINGULAR%g" \
-  "$APP_FOLDER"/lib/src/features/$FEATURE/data/$FEATURE\_repository_impl.dart
+sed -i '' "s%{{#snakeCase}}{{name_plural}}{{/snakeCase}}%$FEATURE_SC%g" \
+  "$APP_FOLDER"/lib/src/features/"$FEATURE"/data/"$FEATURE"_repository_impl.dart
 sed -i '' "s%{{#pascalCase}}{{name_plural}}{{/pascalCase}}%$FEATURE_PC%g" \
-  "$APP_FOLDER"/lib/src/features/$FEATURE/data/$FEATURE\_repository_impl.dart
+  "$APP_FOLDER"/lib/src/features/"$FEATURE"/data/"$FEATURE"_repository_impl.dart
+sed -i '' "s%{{#camelCase}}{{name_plural}}{{/camelCase}}%$FEATURE_CC%g" \
+  "$APP_FOLDER"/lib/src/features/"$FEATURE"/data/"$FEATURE"_repository_impl.dart
+sed -i '' "s%{{#snakeCase}}{{name_singular}}{{/snakeCase}}%$FEATURE_SC_SINGULAR%g" \
+  "$APP_FOLDER"/lib/src/features/"$FEATURE"/data/"$FEATURE"_repository_impl.dart
 sed -i '' "s%{{#pascalCase}}{{name_singular}}{{/pascalCase}}%$FEATURE_PC_SINGULAR%g" \
-  "$APP_FOLDER"/lib/src/features/$FEATURE/data/$FEATURE\_repository_impl.dart
+  "$APP_FOLDER"/lib/src/features/"$FEATURE"/data/"$FEATURE"_repository_impl.dart
+sed -i '' "s%{{#camelCase}}{{name_singular}}{{/camelCase}}%$FEATURE_CC_SINGULAR%g" \
+  "$APP_FOLDER"/lib/src/features/"$FEATURE"/data/"$FEATURE"_repository_impl.dart
 sed -i '' "s%&#x27;&#x27;%''%g" \
-  "$APP_FOLDER"/lib/src/features/$FEATURE/presentation/add_edit/bloc/$FEATURE\_item_add_edit_bloc.dart
+  "$APP_FOLDER"/lib/src/features/"$FEATURE"/presentation/add_edit/bloc/"$FEATURE"_item_add_edit_bloc.dart
 sed -i '' "s%&#x27;&#x27;%''%g" \
-  "$APP_FOLDER"/lib/src/features/$FEATURE/presentation/add_edit/bloc/$FEATURE\_item_add_edit_state.dart
+  "$APP_FOLDER"/lib/src/features/"$FEATURE"/presentation/add_edit/bloc/"$FEATURE"_item_add_edit_state.dart
 # Temp fix empty lines
-sed -i '' "N;N;N;s%\*\*\/\/\n.*\nclass%**//\nclass%g" \
-  "$APP_FOLDER"/lib/src/features/$FEATURE/presentation/main/$FEATURE\_list_item.dart
-# Temp fix empty lines - TODO: Why sed is not working?
-#sed -i '' "N;N;N;s%description,\n\s{4}%description,%g" \
-perl -i -p0e "s/,\n\s{4}\n{2}/,/g" \
-  "$APP_FOLDER"/lib/src/features/$FEATURE/data/$FEATURE\_model.dart
+LOOK_FOR_START='\/\/\*\* fields except title start \*\*\/\/'
+LOOK_FOR_END='class'
+LOOK_FOR="$LOOK_FOR_START(.*?)$LOOK_FOR_END"
+REPLACE_WITH='\/\/\*\* fields except title start \*\*\/\/\nclass'
+perl -i -p0e "s/$LOOK_FOR/$REPLACE_WITH/s" \
+  "$APP_FOLDER"/lib/src/features/"$FEATURE"/presentation/main/"$FEATURE"_list_item.dart
 
 echo -e "\n***\n*** Update .idea...\n***"
-#LOOK_FOR_START="      <item itemvalue=\x22Flutter Test.app basic integration tests\x22 \/>"
-#LOOK_FOR_END="<item itemvalue=\x22Flutter Test.tests in test folder\x22 \/>"
-#LOOK_FOR="$LOOK_FOR_START(.*)$LOOK_FOR_END"
-#REPLACE_WITH=$(cat bin\/fl_feature\/template_idea_integration_tests.txt)
-#perl -i -p0e "s/$LOOK_FOR/$REPLACE_WITH/s" \
-#  "$APP_FOLDER"/.idea/workspace.xml
 
 echo -e "  *** Run Configuration - delete if already exist..."
 LOOK_FOR="\n      <item itemvalue=\x22Flutter Test.app $FEATURE integration tests\x22 \/>"
@@ -154,7 +150,7 @@ perl -i -p0e "s/{feature_name}/$FEATURE/g" \
   "$APP_FOLDER"/test/features/home/home_page_test.dart
 perl -i -p0e "s/{feature_name_pc}/$FEATURE_PC/g" \
   "$APP_FOLDER"/test/features/home/home_page_test.dart
-perl -i -p0e "s/{app_name_cc}/$APP_NAME/g" \
+perl -i -p0e "s/{app_name_sc}/$APP_NAME/g" \
   "$APP_FOLDER"/test/features/home/home_page_test.dart
 
 echo -e "\n***\n*** Update home_page.dart...\n***"
@@ -242,6 +238,10 @@ perl -i -p0e "s/{feature_name}/$FEATURE/g" \
 perl -i -p0e "s/{feature_name_pc}/$FEATURE_PC/g" \
   "$APP_FOLDER"/lib/src/app/itg_app_custom.dart
 perl -i -p0e "s/{feature_name_pc_singular}/$FEATURE_PC_SINGULAR/g" \
+  "$APP_FOLDER"/lib/src/app/itg_app_custom.dart
+perl -i -p0e "s/{feature_name_tc}/$FEATURE_TC/g" \
+  "$APP_FOLDER"/lib/src/app/itg_app_custom.dart
+perl -i -p0e "s/{feature_name_tc_singular}/$FEATURE_TC_SINGULAR/g" \
   "$APP_FOLDER"/lib/src/app/itg_app_custom.dart
 
 echo -e "\n***\n*** Run build_runner...\n***"
