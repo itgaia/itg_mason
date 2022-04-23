@@ -17,5 +17,6 @@
   ],
   "test_field_1": "description",
   "test_field_2": "content",
-  "show_items_in_screen": 4
+  "show_items_in_screen": 4,
+  "use_mongo_db_backend": false
 }

@@ -1,4 +1,3 @@
-import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/app/constants.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/core/error/exception.dart';
@@ -7,6 +6,7 @@ import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/features/{{#snakeCa
 import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/data/{{#snakeCase}}{{name_plural}}{{/snakeCase}}_model.dart';
 import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/data/{{#snakeCase}}{{name_plural}}{{/snakeCase}}_remote_datasource.dart';
 import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/data/{{#snakeCase}}{{name_plural}}{{/snakeCase}}_repository_impl.dart';
+import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/domain/{{#snakeCase}}{{name_plural}}{{/snakeCase}}_helper.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -37,7 +37,7 @@ void main() {
     group('device is online', () {
       setUp(() {
         // when(() => mockNetworkInfoIsConnected).thenAnswer((_) async => true);
-        networkInfoIsConnected = Future.value(true);
+        networkInfoIsConnectedFor{{#pascalCase}}{{name_plural}}{{/pascalCase}} = Future.value(true);
       });
 
       body();
@@ -48,7 +48,7 @@ void main() {
     group('device is offline', () {
       setUp(() {
         // when(() => mockNetworkInfoIsConnected).thenAnswer((_) async => false);
-        networkInfoIsConnected = Future.value(false);
+        networkInfoIsConnectedFor{{#pascalCase}}{{name_plural}}{{/pascalCase}} = Future.value(false);
       });
 
       body();
@@ -159,7 +159,7 @@ void main() {
           final subject = createSubject();
           expect(subject.save{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item(newItem), completes);
           expect(await subject.save{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item(newItem), equals(const Right(newItem)));
-          if (await networkInfoIsConnected) {
+          if (await networkInfoIsConnectedFor{{#pascalCase}}{{name_plural}}{{/pascalCase}}) {
             verify(() => mockRemoteDataSource.create{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item(newItem)).called(2);
           }
         });

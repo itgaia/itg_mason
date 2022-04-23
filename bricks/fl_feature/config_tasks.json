@@ -37,5 +37,6 @@
   ],
   "test_field_1": "description",
   "test_field_2": "notes",
-  "show_items_in_screen": 2
+  "show_items_in_screen": 2,
+  "use_mongo_db_backend": false
 }

@@ -1,5 +1,10 @@
+import 'dart:async';
+import 'dart:developer';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter/material.dart';
+import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/app/app_bloc_observer.dart';
 import 'package:mockingjay/mockingjay.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,7 +22,74 @@ const msgBaseSourceClass = 'test_helper';
 String msgBaseSourceMethod = '';
 void msgLogInfo(String msg) => itgLogVerbose('[$msgBaseSourceClass/$msgBaseSourceMethod] $msg');
 
+Future<void> initializeAppForTesting() async {
+  SharedPreferences.setMockInitialValues({});
+  await initializeApp(forTesting: true);
+}
+
+// Future<void> bootstrapForTesting(FutureOr<Widget> Function() builder) async {
+//   const String baseLogMsg = '[bootstrapFotTesting]';
+//   itgLogVerbose('$baseLogMsg start...');
+//
+//   FlutterError.onError = (details) {
+//     // log(details.exceptionAsString(), stackTrace: details.stack);
+//     log('log [FlutterError] ${details.exceptionAsString()}', stackTrace: details.stack);
+//     itgLogError('itgLogError [FlutterError] ${details.exceptionAsString()}');
+//   };
+//
+//   itgLogVerbose('$baseLogMsg runZonedGuarded...');
+//   await runZonedGuarded(
+//         () async {
+//       await BlocOverrides.runZoned(
+//         () async => runApp(await builder()),
+//         blocObserver: AppBlocObserver(),
+//       );
+//     },
+//     // (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
+//         (error, stackTrace) {
+//       itgLogError('itgLogError [runZonedGuardedError] ${error.toString()}');
+//       // log(error.toString(), stackTrace: stackTrace);
+//       log('log [runZonedGuardedError] ${error.toString()}', stackTrace: stackTrace);
+//     } ,
+//   );
+// }
+
 extension ItgAddedFunctionality on WidgetTester {
+  Future<void> bootstrapForTesting(FutureOr<Widget> Function() builder, {required WidgetTester widgetTester}) async {
+    const String baseLogMsg = '[bootstrapForTesting]';
+    itgLogVerbose('$baseLogMsg start...');
+
+    FlutterError.onError = (details) {
+      // log(details.exceptionAsString(), stackTrace: details.stack);
+      log('log [FlutterError] ${details.exceptionAsString()}', stackTrace: details.stack);
+      itgLogError('itgLogError [FlutterError] ${details.exceptionAsString()}');
+    };
+
+    itgLogVerbose('$baseLogMsg runZonedGuarded...');
+    await runZonedGuarded(
+          () async {
+        await BlocOverrides.runZoned(
+              // () async => runApp(await builder()),
+              () async => widgetTester.pumpWidget(await builder()),
+          blocObserver: AppBlocObserver(),
+        );
+      },
+      // (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
+          (error, stackTrace) {
+        itgLogError('itgLogError [runZonedGuardedError] ${error.toString()}');
+        // log(error.toString(), stackTrace: stackTrace);
+        log('log [runZonedGuardedError] ${error.toString()}', stackTrace: stackTrace);
+      } ,
+    );
+  }
+
+  Future<void> pumpWidgetUnderTest({bool scrollToTheEnd = false}) async {
+    itgLogVerbose('WidgetTester.pumpWidgetUnderTest - start - appMainPage: ${sl<SettingsService>().appMainPage}');
+    await pumpWidget(const App());
+    // bootstrapForTesting(() => const App());
+    if (scrollToTheEnd) await scrollToTheEndOfList();
+  }
+
   Future<void> scrollToTheEndOfList({Key key = keyItemsListWidget}) async {
     // scroll to the of the list in order to render the last items and check if exists already
     // await fling(find.byKey(keyListWidgetItemsData), const Offset(0, -500), 10000);
@@ -26,12 +98,6 @@ extension ItgAddedFunctionality on WidgetTester {
     // await widgetTester.fling(find.byKey(keyListWidgetItemsData), const Offset(0, -6000), 1000);
     // await pumpAndSettle();
     // await Future.delayed(const Duration(seconds: 2));
-  }
-
-  Future<void> pumpWidgetUnderTest({bool scrollToTheEnd = false}) async {
-    itgLogVerbose('WidgetTester.pumpWidgetUnderTest - start - appMainPage: ${sl<SettingsService>().appMainPage}');
-    await pumpWidget(const App());
-    if (scrollToTheEnd) await scrollToTheEndOfList();
   }
 
   Future<void> testWidgetPageClass<T>() async {
@@ -59,9 +125,11 @@ extension ItgAddedFunctionality on WidgetTester {
     expect(find.byType(CustomButton), findsWidgets);
   }
 
-  Future<void> testNavigateToPage<T>(key, {bool initializeWidget = true, bool scrollToTheEnd = false}) async {
+  // Future<void> testNavigateToPage<T>(key, {bool initializeWidget = true, bool scrollToTheEnd = false}) async {
+  Future<void> testNavigateToPage<T>(key, {bool scrollToTheEnd = false}) async {
     msgBaseSourceMethod = 'testNavigateToPage';
-    if (initializeWidget) await pumpWidgetUnderTest(scrollToTheEnd: scrollToTheEnd);
+    // if (initializeWidget) await pumpWidgetUnderTest(scrollToTheEnd: scrollToTheEnd);
+    if (scrollToTheEnd) await scrollToTheEndOfList();
     expect(find.byKey(key), findsOneWidget);
     await tapOnWidget(key);
     msgLogInfo('button "${keyName(key)}" pressed....');
@@ -69,9 +137,11 @@ extension ItgAddedFunctionality on WidgetTester {
     expect(find.byType(T), findsOneWidget);
   }
 
-  Future<void> testNavigateToPageByText<T>(text, {bool initializeWidget = true, bool scrollToTheEnd = false}) async {
+  Future<void> testNavigateToPageByText<T>(text, {bool scrollToTheEnd = false}) async {
+  // Future<void> testNavigateToPageByText<T>(text, {bool initializeWidget = true, bool scrollToTheEnd = false}) async {
     msgBaseSourceMethod = 'testNavigateToPage';
-    if (initializeWidget) await pumpWidgetUnderTest(scrollToTheEnd: scrollToTheEnd);
+    // if (initializeWidget) await pumpWidgetUnderTest(scrollToTheEnd: scrollToTheEnd);
+    if (scrollToTheEnd) await scrollToTheEndOfList();
     msgLogInfo('before button...');
     await tapOnWidgetByText(text, waitToSettle: true);
     msgLogInfo('button "$text" pressed....');
@@ -86,11 +156,8 @@ extension ItgAddedFunctionality on WidgetTester {
   Future<void> tapOnWidget(key, {bool waitToSettle = true}) async {
     expect(find.byKey(key), findsOneWidget);
     await tap(find.byKey(key));
-    // await pumpAndSettle();
     if (waitToSettle) {
       await pumpAndSettle();
-      // } else {
-      //   await pump();
     }
   }
 
@@ -121,11 +188,6 @@ extension ItgAddedFunctionality on WidgetTester {
       isA<String>().having((text) => text, 'text', contains(text)),
     );
   }
-}
-
-Future<void> initializeAppForTesting() async {
-  SharedPreferences.setMockInitialValues({});
-  await initializeApp(forTesting: true);
 }
 
 void arrangeHttpClientGetReturnSuccess200({required String url, required String response}) {

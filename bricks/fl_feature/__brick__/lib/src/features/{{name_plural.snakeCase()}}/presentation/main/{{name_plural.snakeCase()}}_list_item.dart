@@ -165,7 +165,7 @@ class _Title extends StatelessWidget {
       child: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Text(
-            item.{{#camelCase}}{{field_name}}{{/camelCase}},
+            getSimpleTextFromSpecialContent(item.{{#camelCase}}{{field_name}}{{/camelCase}}),
             style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
             key: Key(keyNameGenerator(
                 keyElement: KeyElement.widget,

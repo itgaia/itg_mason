@@ -62,7 +62,7 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditPage extends State
             previous.status != current.status &&
             current.status == {{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditStatus.success,
           listener: (context, state) {
-            itgLogPrint('[{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditPage/listener/success] Item saved...');
+            itgLogVerbose('[{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditPage/listener/success] Item saved...');
             showNotificationSuccess(context: context, msg: 'Item saved...');
             Navigator.of(context).pop();
           },

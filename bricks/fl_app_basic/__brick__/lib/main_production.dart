@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await initializeApp(forTesting: true);
+  await initializeApp(forTesting: false);
 
   bootstrap(() => const App());
 }

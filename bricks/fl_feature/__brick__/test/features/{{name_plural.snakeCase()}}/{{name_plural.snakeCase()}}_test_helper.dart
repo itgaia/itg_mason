@@ -1,3 +1,4 @@
+import 'package:basic_utils/basic_utils.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/app/injection_container.dart';
@@ -77,10 +78,9 @@ const sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}Data = '''[
   }
 ]''';
 
-
 List<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Model> {{#camelCase}}{{name_plural}}{{/camelCase}}TestData({int count = 5}) => List.generate(
   count,
-  (i) => {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(id: '${i+1}', {{#fields}}{{#camelCase}}{{field_name}}{{/camelCase}}: 'test {{#camelCase}}{{field_name}}{{/camelCase}} ${i+1}'{{^is_last}}, {{/is_last}}{{/fields}})
+  (i) => {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(id: getIdForTesting('${i+1}'), {{#fields}}{{#camelCase}}{{field_name}}{{/camelCase}}: 'test {{#camelCase}}{{field_name}}{{/camelCase}} ${i+1}'{{^is_last}}, {{/is_last}}{{/fields}})
 );
 
 List<Map<String, dynamic>> {{#camelCase}}{{name_plural}}{{/camelCase}}TestMapData({int count = 5}) => List.generate(
@@ -90,7 +90,7 @@ List<Map<String, dynamic>> {{#camelCase}}{{name_plural}}{{/camelCase}}TestMapDat
 
 List<Map<String, dynamic>> {{#camelCase}}{{name_plural}}{{/camelCase}}MongoTestMapData({int count = 5}) => List.generate(
   count,
-  (i) => {'_id': {r"$oid": r"61011f6d4558ebe4f88acccc"}, {{#fields}}'{{#camelCase}}{{field_name}}{{/camelCase}}': 'test {{#camelCase}}{{field_name}}{{/camelCase}} ${i+1}'{{^is_last}}, {{/is_last}}{{/fields}}}
+  (i) => {'_id': {r"$oid": getIdForTesting('${i+1}')}, {{#fields}}'{{#camelCase}}{{field_name}}{{/camelCase}}': 'test {{#camelCase}}{{field_name}}{{/camelCase}} ${i+1}'{{^is_last}}, {{/is_last}}{{/fields}}}
 );
 
 extension {{#pascalCase}}{{name_plural}}{{/pascalCase}}AddedFunctionality on WidgetTester {
@@ -100,7 +100,6 @@ extension {{#pascalCase}}{{name_plural}}{{/pascalCase}}AddedFunctionality on Wid
       MaterialApp(
         home: BlocProvider.value(
           value: bloc,
-          // child: const {{#pascalCase}}{{name_plural}}{{/pascalCase}}List(),
           child: const {{#pascalCase}}{{name_plural}}{{/pascalCase}}View(),
         ),
       ),
@@ -164,21 +163,25 @@ void arrange{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemDeleteUsecaseReturn
       .thenAnswer((_) async => const Right(null));
 }
 
-void setUpHttpClientGet{{#pascalCase}}{{name_plural}}{{/pascalCase}}Success200({String url = url{{#pascalCase}}{{name_plural}}{{/pascalCase}}}) {
-  arrangeHttpClientGetReturnSuccess200(url: url, response: fixture('{{#snakeCase}}{{name_plural}}{{/snakeCase}}_response_fixture.json'));
+void setUpHttpClientGet{{#pascalCase}}{{name_plural}}{{/pascalCase}}Success200({String? url}) {
+  if (StringUtils.isNullOrEmptyOrBlank(url)) url = getServerUrl(feature{{#pascalCase}}{{name_plural}}{{/pascalCase}});
+  arrangeHttpClientGetReturnSuccess200(url: url!, response: fixture('{{#snakeCase}}{{name_plural}}{{/snakeCase}}_response_fixture.json'));
 }
 
 
-void setUpHttpClientCreate{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemSuccess200({String url = url{{#pascalCase}}{{name_plural}}{{/pascalCase}}, {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model data = item{{#pascalCase}}{{name_plural}}{{/pascalCase}}AddTestData}) {
-  arrangeHttpClientPostReturnSuccess200(url: url, response: fixture('{{#snakeCase}}{{name_plural}}{{/snakeCase}}_item_create_response_fixture.json'));
+void setUpHttpClientCreate{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemSuccess200({String? url, {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model data = item{{#pascalCase}}{{name_plural}}{{/pascalCase}}AddTestData}) {
+  if (StringUtils.isNullOrEmptyOrBlank(url)) url = getServerUrl(feature{{#pascalCase}}{{name_plural}}{{/pascalCase}});
+  arrangeHttpClientPostReturnSuccess200(url: url!, response: fixture('{{#snakeCase}}{{name_plural}}{{/snakeCase}}_item_create_response_fixture.json'));
 }
 
-void setUpHttpClientUpdate{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemSuccess204({String url = '$url{{#pascalCase}}{{name_plural}}{{/pascalCase}}/$sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemId', {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model data = item{{#pascalCase}}{{name_plural}}{{/pascalCase}}AddTestData}) {
-  arrangeHttpClientPutReturnSuccess204(url: url, response: '');
+void setUpHttpClientUpdate{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemSuccess204({String? url, {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model data = item{{#pascalCase}}{{name_plural}}{{/pascalCase}}AddTestData}) {
+  if (StringUtils.isNullOrEmptyOrBlank(url)) url = getServerUrl(feature{{#pascalCase}}{{name_plural}}{{/pascalCase}}, suffix: sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemId);
+  arrangeHttpClientPutReturnSuccess204(url: url!, response: '');
 }
 
-void setUpHttpClientDelete{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemSuccess204({String url = url{{#pascalCase}}{{name_plural}}{{/pascalCase}}, String id = sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemId}) {
-  arrangeHttpClientDeleteReturnSuccess204(url: url, response: '');
+void setUpHttpClientDelete{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemSuccess204({String? url, String id = sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemId}) {
+  if (StringUtils.isNullOrEmptyOrBlank(url)) url = getServerUrl(feature{{#pascalCase}}{{name_plural}}{{/pascalCase}});
+  arrangeHttpClientDeleteReturnSuccess204(url: url!, response: '');
 }
 
 extension TaskX<T extends Either<Object, U>, U> on Task<T> {

@@ -4,7 +4,6 @@ import 'package:integration_test/integration_test.dart';
 
 import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/common/etc/itg_text.dart';
 import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/common/helper.dart';
-import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/app/app.dart';
 import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/app/constants.dart';
 import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/features/home/home_page.dart';
 import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/data/{{#snakeCase}}{{name_plural}}{{/snakeCase}}_model.dart';
@@ -34,29 +33,38 @@ const {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model data{{#pascalCase}}{{na
   {{test_field_1}}: 'My Double Edited New {{#pascalCase}}{{name_singular}}{{/pascalCase}}',
   {{test_field_2}}: 'This is the double edited {{test_field_2}} for my new {{#snakeCase}}{{name_singular}}{{/snakeCase}}...',
 );
+const {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model data{{#pascalCase}}{{name_plural}}{{/pascalCase}}4 = {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(
+  {{test_field_1}}: 'Another {{#pascalCase}}{{name_singular}}{{/pascalCase}}',
+  {{test_field_2}}: 'This is the {{test_field_2}} for another {{#snakeCase}}{{name_singular}}{{/snakeCase}}...',
+);
 
 // TODO: Refactor - The tests here are depended - The next needs the previous to have run successfully...
 // TODO: Refactor - If the new data is outside of the visible area it must bu scrolled down in order for the tests to work...
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
-  const sample{{test_field_1}} = 'new {{test_field_1}}';
+  const sample{{#pascalCase}}{{test_field_1}}{{/pascalCase}} = 'new {{test_field_1}}';
 
   group('end-to-end test', () {
     setUp(() async {
       await initializeAppForTesting();
+      // bootstrapForTesting(() => const App());
     });
 
     testWidgets('add a new {{#snakeCase}}{{name_singular}}{{/snakeCase}}', (WidgetTester widgetTester) async {
       msgBaseSourceMethod = 'add a new {{#snakeCase}}{{name_singular}}{{/snakeCase}}';
       msgLogInfo('start........\n');
 
-      await widgetTester.pumpWidget(const App());
-      await widgetTester.pumpAndSettle();
+      // await widgetTester.pumpWidget(const App());
+      // bootstrapForTesting(() => const App(), widgetTester: widgetTester);
+      // await widgetTester.pumpAndSettle();
+      await widgetTester.pumpWidgetUnderTest();
+
+      // bootstrapForTesting(() => const App());
 
       await widgetTester.testNavigateToPage<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Page>(keyButton{{#pascalCase}}{{name_plural}}{{/pascalCase}}Page);
 
       // await scrollToTheEndOfList(widgetTester);
-      expect(find.text(sample{{test_field_1}}), findsNothing);
+      expect(find.text(sample{{#pascalCase}}{{test_field_1}}{{/pascalCase}}), findsNothing);
 
       msgLogInfo('add a new item...');
       await widgetTester.testNavigateToPage<{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditPage>(Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetListItemBase-$keyFloatingActionAdd'));
@@ -79,11 +87,40 @@ void main() {
       msgLogInfo('end........\n');
     }, skip: false);
 
+    testWidgets('add another {{#snakeCase}}{{name_singular}}{{/snakeCase}}', (WidgetTester widgetTester) async {
+      msgBaseSourceMethod = 'add another {{#snakeCase}}{{name_singular}}{{/snakeCase}}';
+      msgLogInfo('start........\n');
+
+      await widgetTester.pumpWidgetUnderTest();
+
+      await widgetTester.testNavigateToPage<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Page>(keyButton{{#pascalCase}}{{name_plural}}{{/pascalCase}}Page);
+
+      msgLogInfo('add another item...');
+      await widgetTester.testNavigateToPage<{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditPage>(Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetListItemBase-$keyFloatingActionAdd'));
+      await widgetTester.enterText(find.byKey(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemAddEditBase-col1-{{test_field_1}}')), data{{#pascalCase}}{{name_plural}}{{/pascalCase}}4.{{test_field_1}});
+      await widgetTester.enterText(find.byKey(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemAddEditBase-col1-{{test_field_2}}')), data{{#pascalCase}}{{name_plural}}{{/pascalCase}}4.{{test_field_2}});
+      await widgetTester.testNavigateToPage<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Page>(keyButtonSaveItemAddEditPage);
+      msgLogInfo('saved the another item...');
+
+      await widgetTester.pumpAndSettle();
+      expect(find.byType({{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemShowPage), findsNothing);
+      expect(find.byType({{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditPage), findsNothing);
+      expect(find.byType({{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditView), findsNothing);
+      expect(find.byType({{#pascalCase}}{{name_plural}}{{/pascalCase}}Page), findsOneWidget);
+
+      expect(find.text(data{{#pascalCase}}{{name_plural}}{{/pascalCase}}4.{{test_field_1}}), findsOneWidget);
+
+      msgLogInfo('end........\n');
+    }, skip: false);
+
     testWidgets('show and edit the new {{#snakeCase}}{{name_singular}}{{/snakeCase}}', (WidgetTester widgetTester) async {
       msgBaseSourceMethod = 'show and edit the new {{#snakeCase}}{{name_singular}}{{/snakeCase}}';
       msgLogInfo('start........\n');
 
-      await widgetTester.pumpWidget(const App());
+      await widgetTester.pumpWidgetUnderTest();
+      // bootstrapForTesting(() => const App());
+      // bootstrapForTesting(() => await widgetTester.pumpWidget(const App()));
+      // widgetTester.bootstrapForTesting(() => const App(), widgetTester: widgetTester);
 
       await widgetTester.testNavigateToPage<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Page>(keyButton{{#pascalCase}}{{name_plural}}{{/pascalCase}}Page);
       msgLogInfo('------>>> items list page........\n');
@@ -186,8 +223,7 @@ void main() {
       msgBaseSourceMethod = 'show and delete the new {{#snakeCase}}{{name_singular}}{{/snakeCase}}';
       msgLogInfo('start........\n');
 
-      await widgetTester.pumpWidget(const App());
-      await widgetTester.pumpAndSettle();
+      await widgetTester.pumpWidgetUnderTest();
 
       await widgetTester.testNavigateToPage<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Page>(keyButton{{#pascalCase}}{{name_plural}}{{/pascalCase}}Page);
       await widgetTester.pumpAndSettle();
@@ -214,27 +250,43 @@ void main() {
       msgLogInfo('end........\n');
     }, skip: false);
 
-    testWidgets('delete the first {{#snakeCase}}{{name_singular}}{{/snakeCase}}', (WidgetTester widgetTester) async {
-      final data = items{{#pascalCase}}{{name_plural}}{{/pascalCase}}Sample().first;
-
-      msgBaseSourceMethod = 'delete the first {{#snakeCase}}{{name_singular}}{{/snakeCase}}';
+    testWidgets('delete the another {{#snakeCase}}{{name_singular}}{{/snakeCase}}', (WidgetTester widgetTester) async {
+      msgBaseSourceMethod = 'delete the another {{#snakeCase}}{{name_singular}}{{/snakeCase}}';
       msgLogInfo('start........\n');
 
-      await widgetTester.pumpWidget(const App());
-      await widgetTester.pumpAndSettle();
+      await widgetTester.pumpWidgetUnderTest();
 
       await widgetTester.testNavigateToPage<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Page>(keyButton{{#pascalCase}}{{name_plural}}{{/pascalCase}}Page);
       await widgetTester.pumpAndSettle();
       expect(find.byKey(keyTextError), findsNothing);
       // await scrollToTheEndOfList(widgetTester);
 
-      await widgetTester.testWidgetText(data.{{test_field_1}}, Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetListItemBase-${data.id}-title'));
-      await widgetTester.testWidgetText(data.{{test_field_2}}, Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetListItemBase-${data.id}-{{test_field_2}}'));
+      msgLogInfo('------>>> before enter item show page........\n');
+      await widgetTester.testNavigateToPageByText<{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemShowPage>(data{{#pascalCase}}{{name_plural}}{{/pascalCase}}4.{{test_field_1}}, scrollToTheEnd: true);
 
-      await widgetTester.tapOnWidget(Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetListItemBase-${data.id}-action-delete'));
+      msgLogInfo('------>>> item show page........\n');
+      expect(find.byType({{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemShowPage), findsOneWidget);
+      expect(find.byKey(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemShowBase-col1-id')), findsOneWidget);
+      final itemId = widgetTester.widget<ItgTextWithLabel>(find.byKey(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemShowBase-col1-id'))).text;
+      // final itemId = widgetTester.widget<Text>(find.byKey(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetItemShowBase-col1-id'))).data;
+      msgLogInfo('>>>>>>> itemId: $itemId');
+
+      await widgetTester.tap(find.byTooltip('Close'));
+      await widgetTester.pumpAndSettle();
+      msgLogInfo('------>>> items list page (returned from another)........\n');
+      expect(find.byType({{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemShowPage), findsNothing);
+      expect(find.byType({{#pascalCase}}{{name_plural}}{{/pascalCase}}Page), findsOneWidget);
+
+      msgLogInfo('before check for texts...\n');
+      await widgetTester.testWidgetText(data{{#pascalCase}}{{name_plural}}{{/pascalCase}}4.{{test_field_1}}, Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetListItemBase-$itemId-title'));
+      await widgetTester.testWidgetText(data{{#pascalCase}}{{name_plural}}{{/pascalCase}}4.{{test_field_2}}, Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetListItemBase-$itemId-{{test_field_2}}'));
+
+      msgLogInfo('before press delete...\n');
+      await widgetTester.tapOnWidget(Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetListItemBase-$itemId-action-delete'));
       await widgetTester.tapOnWidgetByText('OK', waitToSettle: true);
       if (useDelays) await Future.delayed(const Duration(seconds: 2));
 
+      msgLogInfo('after delete...\n');
       expect(find.byKey(keyNotificationSuccess), findsOneWidget);
       expect(find.byKey(keyNotificationFailure), findsNothing);
       expect(find.byType({{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemShowPage), findsNothing);
@@ -242,8 +294,8 @@ void main() {
       expect(find.byType({{#pascalCase}}{{name_plural}}{{/pascalCase}}Page), findsOneWidget);
 
       // await scrollToTheEndOfList(widgetTester);
-      expect(find.text(data.{{test_field_1}}), findsNothing);
-      expect(find.text(data.{{test_field_2}}), findsNothing);
+      expect(find.text(data{{#pascalCase}}{{name_plural}}{{/pascalCase}}4.{{test_field_1}}), findsNothing);
+      expect(find.text(data{{#pascalCase}}{{name_plural}}{{/pascalCase}}4.{{test_field_2}}), findsNothing);
       if (useDelays) await Future.delayed(const Duration(seconds: 2));
 
       msgLogInfo('end........\n');

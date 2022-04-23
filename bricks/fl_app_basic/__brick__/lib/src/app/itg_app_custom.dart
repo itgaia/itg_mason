@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-import 'constants.dart';
+import 'app_config.dart';
 import '../common/helper.dart';
 import '../common/itg_custom.dart';
 import '../common/itg_localization.dart';
+import '../features/{feature_name_sc}/domain/{feature_name_sc}_helper.dart';
 
 const appTitleFull = '{{app_descr}}';
 
@@ -27,6 +28,8 @@ Future<void> customizeApp() async {
   };
   ItgLocalization.custom(_localizedValues);
   debugPaintSizeEnabled = appDebugPaintSizeEnabled;
+
+  //** custom app settings **//
 }
 
 class ItgAppCustom extends ItgCustom {

@@ -1,7 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:basic_utils/basic_utils.dart';
 
+import '../app/app_config.dart';
+import '../app/app_private_config.dart';
 import '../app/constants.dart';
 
 /// Used when we want to print something for debugging even if appDebugMode is false
@@ -25,6 +28,37 @@ void itgLogError(String msg) {
   if (kDebugMode) {
     print('*** Error: $msg');
   }
+}
+
+// TODO: support also camelCase and PascalCase
+String _snakeCase(String value) {
+  if (StringUtils.isNullOrEmptyOrBlank(value)) {
+    return '';
+  }
+  else if (value.contains('_')) {
+    return value.toLowerCase();
+  }
+  else if (value.contains('-')) {
+    return value.replaceAll('-', '_').toLowerCase();
+  } else {
+    return value.toLowerCase();
+  }
+}
+
+/// Returns the full url
+/// suffix: it is the last part of the url (does not contain '/' as first char
+String getServerUrl(String feature, {String? suffix}) {
+  itgLogVerbose('feature: $feature, feature.isEmpty: ${feature.isEmpty}, StringUtils.isNullOrEmpty(feature): ${StringUtils.isNullOrEmpty(feature)}');
+  if (StringUtils.isNullOrEmptyOrBlank(feature)) {
+    return '';
+  }
+  String url = '$serverUrl/${_snakeCase(feature)}';
+  if (StringUtils.isNotNullOrEmptyOrBlank(suffix)) {
+    if (suffix!.contains('/', 0)) throw('[getServerUrl] suffix ($suffix) starts with "/"');
+    url = '$url/$suffix';
+  }
+  if (systemUnderTesting) url = '$url?test';
+  return url;
 }
 
 abstract class KeyElement {
@@ -72,6 +106,13 @@ Text widgetText(BuildContext context, String text, {required Key key}) {
       textAlign: TextAlign.center,
       key: key
   );
+}
+
+
+/// Return the Map which contains the id for the mongodb
+Map<String, dynamic> buildIdMapForMongoDb(String? id) {
+  itgLogVerbose('[buildIdMap] id: $id (${id.runtimeType})');
+  return {r"$oid":"$id"};
 }
 
 /// extract the id from the passing value
@@ -162,7 +203,7 @@ String jsonStringAsStringValue(String? value, {String valueType = 'string'}) {
 String keyName(Key key) => key.toString().replaceAll("[<'", '').replaceAll("'>]", '');
 
 void showNotification({required BuildContext context, required String msg, Key? key}) {
-  itgLogPrint('showNotification - $msg, key: $key');
+  itgLogVerbose('showNotification - $msg, key: $key');
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
         content: Text(msg),
@@ -223,3 +264,11 @@ Future<String> loadAsset(String fileName) async {
   return await rootBundle.loadString('assets/files/$fileName');
 }
 
+// Prefix content with a code
+// mkd - markdown: markdown content
+//     - normal: all other content
+const String prefixSpecialContent = '%%%';
+const String splitOnSpecialContent = '%:%';
+String getSimpleTextFromSpecialContent(String content) {
+  return content.replaceAll('${prefixSpecialContent}mkd$splitOnSpecialContent', '');
+}

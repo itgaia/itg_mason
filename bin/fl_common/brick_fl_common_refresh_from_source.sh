@@ -7,6 +7,7 @@ mkdir -p $TGT/test/fixtures
 
 cp $SRC/test/common/app_test_helper.dart $TGT/test/common/
 cp $SRC/test/common/test_helper.dart $TGT/test/common/
+cp $SRC/test/common/helper_test.dart $TGT/test/common/
 cp $SRC/test/fixtures/fixture_helper.dart $TGT/test/fixtures/
 
 mkdir -p $TGT/lib/src/common/etc

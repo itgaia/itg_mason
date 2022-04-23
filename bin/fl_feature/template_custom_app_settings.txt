@@ -1,0 +1,6 @@
+  \/\/\*\* custom app settings \*\*\/\/
+
+  \/\/\*\* {feature_name_pc} feature custom app settings start \*\*\/\/
+  networkInfoIsConnectedFor{feature_name_pc} = Future.value({use_mongo_db_backend});
+  useMongoDbBackendFor{feature_name_pc} = {use_mongo_db_backend};
+  \/\/\*\* {feature_name_pc} feature custom app settings end \*\*\/\/

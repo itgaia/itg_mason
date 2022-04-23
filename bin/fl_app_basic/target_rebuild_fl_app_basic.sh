@@ -4,6 +4,7 @@ APP_FOLDER="$TGT_PARENT_FOLDER/$APP_NAME"
 echo -e "\nWarning! All bellow variables must exist and be valid!"
 echo "  APP_NAME: $APP_NAME"
 echo "  TGT_PARENT_FOLDER: $TGT_PARENT_FOLDER"
+echo "  USE_MONGO_DB_BACKEND: $USE_MONGO_DB_BACKEND"
 echo ""
 
 echo -e "\n\nArguments: $*"
@@ -34,21 +35,23 @@ mkdir -p "$APP_FOLDER"/assets/files
 
 LOOK_FOR_START='  flutter_localizations:'
 LOOK_FOR_END='sdk: flutter'
-REPLACE_WITH=' \
-  intl: ^0.17.0 \
-  equatable: ^2.0.3 \
-  flutter_bloc: ^8.0.1 \
-  http: ^0.13.4 \
-  dartz: ^0.10.0 \
-  get_it: ^7.2.0 \
-  json_serializable: ^6.1.1 \
-  freezed: ^1.1.0 \
-  freezed_annotation: ^1.1.0 \
-  build_runner: ^2.1.5 \
-  json_annotation: ^4.4.0 \
-  mockingjay: ^0.2.0 \
-  confirm_dialog: ^1.0.1 \
-  shared_preferences: ^2.0.13'
+REPLACE_WITH='\
+  intl: ^0.17.0\
+  equatable: ^2.0.3\
+  flutter_bloc: ^8.0.1\
+  http: ^0.13.4\
+  dartz: ^0.10.0\
+  get_it: ^7.2.0\
+  json_serializable: ^6.1.1\
+  freezed: ^1.1.0\
+  freezed_annotation: ^1.1.0\
+  build_runner: ^2.1.5\
+  json_annotation: ^4.4.0\
+  mockingjay: ^0.2.0\
+  confirm_dialog: ^1.0.1\
+  shared_preferences: ^2.0.13\
+  basic_utils:\
+    path: ..\/..\/_forked\/itg_basic_utils'
 sed -i '' "
 /$LOOK_FOR_START/ {
 	N

@@ -1,15 +1,16 @@
 import 'dart:convert';
 
+import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/app/app_config.dart';
 import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/app/constants.dart';
 import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/common/helper.dart';
 import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/core/error/exception.dart';
 import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/data/{{#snakeCase}}{{name_plural}}{{/snakeCase}}_model.dart';
-import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/domain/{{#snakeCase}}{{name_plural}}{{/snakeCase}}_helper.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/app/injection_container.dart';
 import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/data/{{#snakeCase}}{{name_plural}}{{/snakeCase}}_remote_datasource.dart';
+import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/domain/{{#snakeCase}}{{name_plural}}{{/snakeCase}}_helper.dart';
 import 'package:mockingjay/mockingjay.dart';
 
 import '../../../common/test_helper.dart';
@@ -29,10 +30,10 @@ void main() {
 
   group('get{{#pascalCase}}{{name_plural}}{{/pascalCase}}', () {
     test('should perform a GET request on a URL with application/json header', () {
-      setUpHttpClientGet{{#pascalCase}}{{name_plural}}{{/pascalCase}}Success200(url: url{{#pascalCase}}{{name_plural}}{{/pascalCase}});
+      setUpHttpClientGet{{#pascalCase}}{{name_plural}}{{/pascalCase}}Success200(url: getServerUrl(feature{{#pascalCase}}{{name_plural}}{{/pascalCase}}));
       dataSource.get{{#pascalCase}}{{name_plural}}{{/pascalCase}}();
       verify(() => sl<http.Client>()
-          .get(Uri.parse(url{{#pascalCase}}{{name_plural}}{{/pascalCase}}), headers: {'Content-Type': 'application/json'}));
+          .get(Uri.parse(getServerUrl(feature{{#pascalCase}}{{name_plural}}{{/pascalCase}})), headers: {'Content-Type': 'application/json'}));
         });
 
     // final t{{#pascalCase}}{{name_plural}}{{/pascalCase}}Model = (json.decode(fixture('{{#snakeCase}}{{name_plural}}{{/snakeCase}}_fixture.json')) as List)
@@ -50,7 +51,7 @@ void main() {
     test(
         'should return a ServerException when the response code is 404 or other',
             () async {
-          arrangeHttpClientGetReturnFailure404(url: url{{#pascalCase}}{{name_plural}}{{/pascalCase}});
+          arrangeHttpClientGetReturnFailure404(url: getServerUrl(feature{{#pascalCase}}{{name_plural}}{{/pascalCase}}));
           final call = dataSource.get{{#pascalCase}}{{name_plural}}{{/pascalCase}};
           expect(() => call(), throwsA(isA<ServerException>()));
           expect(() async => await call(), throwsA(const ServerException(description: 'Invalid response "404"...')));
@@ -59,7 +60,7 @@ void main() {
     test(
         'should return a ServerException when an exception occurs',
             () async {
-          arrangeHttpClientGetReturnException(url: url{{#pascalCase}}{{name_plural}}{{/pascalCase}});
+          arrangeHttpClientGetReturnException(url: getServerUrl(feature{{#pascalCase}}{{name_plural}}{{/pascalCase}}));
           final call = dataSource.get{{#pascalCase}}{{name_plural}}{{/pascalCase}};
           expect(() => call(), throwsA(isA<ServerException>()));
           expect(() => call(), throwsA(const ServerException(description: 'Exception: $textSampleException')));
@@ -71,10 +72,10 @@ void main() {
     // const {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model tData = {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model(code: 'test code 1', id: r'{$oid: 1}', dtFill: '2021-1-1', dtEmpty: '', dtDisinfection: '', {{#camelCase}}{{name_plural}}{{/camelCase}}: 'test {{#camelCase}}{{name_plural}}{{/camelCase}} 1', createdAt: '', updatedAt: '');
 
     test('{{#upperCase}}{{abbreviation}}{{/upperCase}}RDS create should perform a POST request on a URL with application/json header', () {
-      setUpHttpClientCreate{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemSuccess200(url: url{{#pascalCase}}{{name_plural}}{{/pascalCase}});
+      setUpHttpClientCreate{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemSuccess200(url: getServerUrl(feature{{#pascalCase}}{{name_plural}}{{/pascalCase}}));
       dataSource.create{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item(tData);
       verify(() => sl<http.Client>().post(
-          Uri.parse(url{{#pascalCase}}{{name_plural}}{{/pascalCase}}),
+          Uri.parse(getServerUrl(feature{{#pascalCase}}{{name_plural}}{{/pascalCase}})),
           headers: {'Content-Type': 'application/json'},
           // body: tData.toJson()
           body: r'{"_id":"1","description":"test description 1","content":"test content 1"}'
@@ -88,7 +89,7 @@ void main() {
     }, skip: !useHttpClient);
 
     test('{{#upperCase}}{{abbreviation}}{{/upperCase}}RDS create should return a ServerException when the response code is 404 or other', () async {
-      arrangeHttpClientPostReturnFailure404(url: url{{#pascalCase}}{{name_plural}}{{/pascalCase}});
+      arrangeHttpClientPostReturnFailure404(url: getServerUrl(feature{{#pascalCase}}{{name_plural}}{{/pascalCase}}));
       final call = dataSource.create{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item;
       expect(() => call(tData), throwsA(isA<ServerException>()));
       expect(() async => await call(tData), throwsA(const ServerException(description: '[{{#pascalCase}}{{name_plural}}{{/pascalCase}}RemoteDataSourceImpl.create{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item] Failed tp create item with response code "404"...')));
@@ -96,7 +97,7 @@ void main() {
     });
 
     test('{{#upperCase}}{{abbreviation}}{{/upperCase}}RDS create should return a ServerException when an exception occurs', () async {
-      arrangeHttpClientPostReturnException(url: url{{#pascalCase}}{{name_plural}}{{/pascalCase}});
+      arrangeHttpClientPostReturnException(url: getServerUrl(feature{{#pascalCase}}{{name_plural}}{{/pascalCase}}));
       final call = dataSource.create{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item;
       expect(() => call(tData), throwsA(isA<ServerException>()));
       expect(() => call(tData), throwsA(const ServerException(description: 'Exception: $textSampleException')));
@@ -105,7 +106,7 @@ void main() {
 
   group('{{#upperCase}}{{abbreviation}}{{/upperCase}}RDS update{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item', () {
     final {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model tData = {{#camelCase}}{{name_plural}}{{/camelCase}}TestData().first;
-    final String tUrl = '$url{{#pascalCase}}{{name_plural}}{{/pascalCase}}/${tData.id}';
+    final String tUrl = getServerUrl(feature{{#pascalCase}}{{name_plural}}{{/pascalCase}}, suffix: tData.id);
     itgLogVerbose('{{#upperCase}}{{abbreviation}}{{/upperCase}}RDS update{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item - tUrl: $tUrl');
     itgLogVerbose('{{#upperCase}}{{abbreviation}}{{/upperCase}}RDS update{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item - tData: $tData');
 
@@ -142,7 +143,7 @@ void main() {
 
   group('{{#upperCase}}{{abbreviation}}{{/upperCase}}RDS delete{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item', () {
     // final {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model tData = {{#camelCase}}{{name_plural}}{{/camelCase}}TestData().first;
-    const String tUrl = '$url{{#pascalCase}}{{name_plural}}{{/pascalCase}}/$sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemId';
+    final String tUrl = getServerUrl(feature{{#pascalCase}}{{name_plural}}{{/pascalCase}}, suffix: sample{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemId);
 
     test('{{#upperCase}}{{abbreviation}}{{/upperCase}}RDS delete should perform a DELETE request on a URL with application/json header', () {
       setUpHttpClientDelete{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemSuccess204(url: tUrl);

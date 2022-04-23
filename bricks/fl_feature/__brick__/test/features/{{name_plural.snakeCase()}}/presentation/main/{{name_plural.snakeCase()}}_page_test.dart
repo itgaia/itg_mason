@@ -349,7 +349,7 @@ void main() {
       await widgetTester.pumpWidgetUnderTest();
       await widgetTester.pumpAndSettle();
 
-      await widgetTester.tapOnWidget(Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetListItemBase-1-$keyActionShow'));
+      await widgetTester.tapOnWidget(Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetListItemBase-${tData.first.id}-$keyActionShow'));
       expect(find.byType({{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemShowPage), findsOneWidget);
       expect(find.text(textSampleContent), findsNothing);
     });
@@ -358,7 +358,7 @@ void main() {
       await widgetTester.pumpWidgetUnderTest();
       await widgetTester.pumpAndSettle();
 
-      await widgetTester.tapOnWidget(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetListItemBase-1-action-edit'));
+      await widgetTester.tapOnWidget(Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetListItemBase-${tData.first.id}-action-edit'));
       expect(find.byType({{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditPage), findsOneWidget);
       expect(find.text(textSampleContent), findsNothing);
     });
@@ -367,7 +367,7 @@ void main() {
       await widgetTester.pumpWidgetUnderTest();
       await widgetTester.pumpAndSettle();
 
-      await widgetTester.tapOnWidget(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetListItemBase-1-action-duplicate'));
+      await widgetTester.tapOnWidget(Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetListItemBase-${tData.first.id}-action-duplicate'));
       expect(find.byType({{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddEditPage), findsOneWidget);
       expect(find.text(textSampleContent), findsNothing);
       expect(find.byKey(keyTextPageTitle), findsOneWidget);
@@ -382,7 +382,7 @@ void main() {
       await widgetTester.pumpWidgetUnderTest();
       await widgetTester.pumpAndSettle();
 
-      await widgetTester.tapOnWidget(const Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetListItemBase-1-action-delete'));
+      await widgetTester.tapOnWidget(Key('$key{{#pascalCase}}{{name_plural}}{{/pascalCase}}WidgetListItemBase-${tData.first.id}-action-delete'));
       await widgetTester.tapOnWidgetByText('OK');
 
       expect(find.byKey(keyNotificationSuccess), findsOneWidget);

@@ -10,9 +10,11 @@ part '{{#snakeCase}}{{name_plural}}{{/snakeCase}}_model.g.dart';
 class {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model with _${{#pascalCase}}{{name_plural}}{{/pascalCase}}Model {
   const {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model._();
   const factory {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model({
-    // TODO: How can I refactor it in order to use the useMongoDbBackend?
-    // @ObjectIdJsonConverter() @JsonKey(name: '_id', toJson: omitEmpty, includeIfNull: false) String? id,
-    @JsonKey(toJson: omitEmpty, includeIfNull: false) String? id,
+    // TODO: How can I refactor it in order to use the useMongoDbBackendFor{{#pascalCase}}{{name_plural}}{{/pascalCase}}?
+    //** field id start **//
+    {{#use_mongo_db_backend}}// use mongoDb backend
+    @ObjectIdJsonConverter() @JsonKey(name: '_id', includeIfNull: false) String? id,{{/use_mongo_db_backend}}{{^use_mongo_db_backend}}@JsonKey(toJson: omitEmpty, includeIfNull: false) String? id,{{/use_mongo_db_backend}}
+    //** field id end **//
     //** fields start **//
     {{#fields}}{{#required}}@JsonKey(toJson: omitEmpty) required String {{#camelCase}}{{field_name}}{{/camelCase}},
     {{/required}}{{^required}}@Default('') @JsonKey(toJson: omitEmpty, includeIfNull: false) String {{#camelCase}}{{field_name}}{{/camelCase}},{{^is_last}}
@@ -62,7 +64,7 @@ class ObjectIdJsonConverter implements JsonConverter<String?, Map<String, dynami
   String? fromJson(Map<String, dynamic> json) => getId(json);
 
   @override
-  Map<String, dynamic> toJson(String? object) => {r"$oid":"$object"};
+  Map<String, dynamic> toJson(String? object) => buildIdMapForMongoDb(object);
 }
 
 class DateStringJsonConverter implements JsonConverter<String, String> {

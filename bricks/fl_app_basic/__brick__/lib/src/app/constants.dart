@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 
-
-const appDebugMode = true;
-const appDebugPaintSizeEnabled = false;
-const appDebugShowCheckedModeBanner = false;
-
 const keyNameSeparator = '-';
 const keyShow = 'show';
 const keyAdd = 'add';
@@ -61,17 +56,6 @@ const keyTextHomePageWelcomeMessage1 = Key('text-home-page-welcome-message-1');
 const keyTextHomePageWelcomeMessage2 = Key('text-home-page-welcome-message-2');
 const keyTextError = Key('text-error');
 
-Future<bool> networkInfoIsConnected = Future.value(false);  // Temporary...
-
-/// If the backend is MongoDb then id field is {"_id":{"$oid":"61011f6d4558ebe4f88acccc"}}
-bool useMongoDbBackend = false;
-
-/// Use shared_preferences package for persisting data
-bool useSharedPreferencesBackend = true;
-
-/// Use http.client for persisting data
-bool useHttpClient = false;
-
 const textTitleSuffixDuplicate = ' (copy)';
 
 // colors
@@ -92,3 +76,5 @@ const mapValueKindColumn = 'widget_column';
 const mapValueKindRow = 'widget_row';
 const mapKeyOnClick = 'on_click';
 const mapValueOnClickShowCurrentItem = '###show-current-item###';
+
+const sampleIdForMongoDb = '61011f6d4558ebe4f88abc1';

@@ -132,6 +132,7 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}View extends StatelessWidget 
             itgLogVerbose('$baseLogMsg state.items.last: ${state.items.last}...');
             return CupertinoScrollbar(
               child: ListView(
+                padding: const EdgeInsets.only(bottom: 52.0),
                 children: [
                   for (final item in state.filteredItems)
                     {{#pascalCase}}{{name_plural}}{{/pascalCase}}ListItem(item: item)

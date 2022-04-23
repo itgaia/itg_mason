@@ -32,7 +32,7 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}RemoteDataSourceImpl implemen
   }
 
   @override
-  Future<List<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Model>> get{{#pascalCase}}{{name_plural}}{{/pascalCase}}() async => _get{{#pascalCase}}{{name_plural}}{{/pascalCase}}FromUrl(url{{#pascalCase}}{{name_plural}}{{/pascalCase}});
+  Future<List<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Model>> get{{#pascalCase}}{{name_plural}}{{/pascalCase}}() async => _get{{#pascalCase}}{{name_plural}}{{/pascalCase}}FromUrl(getServerUrl(feature{{#pascalCase}}{{name_plural}}{{/pascalCase}}));
 
   /// Returns data (List<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Model>) or a ServerException is raised
   Future<List<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Model>> _get{{#pascalCase}}{{name_plural}}{{/pascalCase}}FromUrl(String url) async {
@@ -66,7 +66,7 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}RemoteDataSourceImpl implemen
   Future<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Model> create{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item({{#pascalCase}}{{name_plural}}{{/pascalCase}}Model data) async {
     const String baseLogMsg = '[{{#pascalCase}}{{name_plural}}{{/pascalCase}}RemoteDataSourceImpl.create{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item]';
     try {
-      final url = Uri.parse(url{{#pascalCase}}{{name_plural}}{{/pascalCase}});
+      final url = Uri.parse(getServerUrl(feature{{#pascalCase}}{{name_plural}}{{/pascalCase}}));
       itgLogVerbose('$baseLogMsg url: $url');
       final response = await client.post(
         url,
@@ -98,7 +98,7 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}RemoteDataSourceImpl implemen
     itgLogVerbose('$baseLogMsg data: $data');
     itgLogVerbose('$baseLogMsg body: $body');
     try {
-      final url = Uri.parse('$url{{#pascalCase}}{{name_plural}}{{/pascalCase}}/${data.id}');
+      final url = Uri.parse(getServerUrl(feature{{#pascalCase}}{{name_plural}}{{/pascalCase}}, suffix: data.id));
       itgLogVerbose('$baseLogMsg url: $url');
       final response = await client.put(
           url,
@@ -132,7 +132,7 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}RemoteDataSourceImpl implemen
   Future<void> delete{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item(String id) async {
     const String baseLogMsg = '[{{#pascalCase}}{{name_plural}}{{/pascalCase}}RemoteDataSourceImpl.delete{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item]';
     try {
-      final url = Uri.parse('$url{{#pascalCase}}{{name_plural}}{{/pascalCase}}/$id');
+      final url = Uri.parse(getServerUrl(feature{{#pascalCase}}{{name_plural}}{{/pascalCase}}, suffix: id));
       itgLogVerbose('$baseLogMsg url: $url');
       final response = await client.delete(
         url,

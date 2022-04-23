@@ -70,6 +70,7 @@ mkdir -p $TGTTF/$NMP/presentation/show
 
 cp $SRCTF/cultivation_chambers/cultivation_chambers_test_helper.dart $TGTTF/$NMP/$NMP\_test_helper.dart
 cp $SRCT/fixtures/cultivation_chambers_fixture.json $TGTT/fixtures/$NMP\_fixture.json
+cp $SRCT/fixtures/cultivation_chambers_mongo_fixture.json $TGTT/fixtures/$NMP\_mongo_fixture.json
 cp $SRCT/fixtures/cultivation_chambers_response_fixture.json $TGTT/fixtures/$NMP\_response_fixture.json
 cp $SRCTF/cultivation_chambers/data/cultivation_chambers_model_test.dart $TGTTF/$NMP/data/$NMP\_model_test.dart
 cp $SRCTF/cultivation_chambers/data/cultivation_chambers_remote_datasource_test.dart $TGTTF/$NMP/data/$NMP\_remote_datasource_test.dart
@@ -154,6 +155,13 @@ LOOK_FOR="$LOOK_FOR_1\n.*$LOOK_FOR_2"
 REPLACE_WITH='{{#fields}}"{{#camelCase}}{{field_name}}{{\/camelCase}}": "test {{#camelCase}}{{field_name}}{{\/camelCase}} $1"{{^is_last}},{{\/is_last}}{{^is_last}}\n    {{\/is_last}}{{\/fields}}'
 perl -i -p0e "s/$LOOK_FOR/$REPLACE_WITH/g" \
   $TGTT/fixtures/"{{name_plural.snakeCase()}}"_fixture.json
+
+LOOK_FOR_1='"code": "test code (\d)",'
+LOOK_FOR_2='"notes": "test notes \d"'
+LOOK_FOR="$LOOK_FOR_1\n.*$LOOK_FOR_2"
+REPLACE_WITH='{{#fields}}"{{#camelCase}}{{field_name}}{{\/camelCase}}": "test {{#camelCase}}{{field_name}}{{\/camelCase}} $1"{{^is_last}},{{\/is_last}}{{^is_last}}\n    {{\/is_last}}{{\/fields}}'
+perl -i -p0e "s/$LOOK_FOR/$REPLACE_WITH/g" \
+  $TGTT/fixtures/"{{name_plural.snakeCase()}}"_mongo_fixture.json
 
 LOOK_FOR='"code": "Code-(\d\d)","notes": "Notes-(\d\d)",'
 REPLACE_WITH='{{#fields}}"{{#camelCase}}{{field_name}}{{\/camelCase}}": "{{#pascalCase}}{{field_name}}{{\/pascalCase}}-$1",{{\/fields}}'
@@ -242,6 +250,12 @@ LOOK_FOR="expect\(find.byType\({{#pascalCase}}{{name_plural}}{{\/pascalCase}}Lis
 REPLACE_WITH="expect(find.byType({{#pascalCase}}{{name_plural}}{{\/pascalCase}}ListItem), findsNWidgets({{show_items_in_screen}}));"
 perl -i -p0e "s/$LOOK_FOR/$REPLACE_WITH/g" \
   $TGTTFF/presentation/main/"{{name_plural.snakeCase()}}"_list_test.dart
+
+LOOK_FOR_START='    \/\/\*\* field id start \*\*\/\/'
+LOOK_FOR_END='\/\/\*\* field id end \*\*\/\/'
+LOOK_FOR="$LOOK_FOR_START(.*)$LOOK_FOR_END"
+perl -i -p0e "s/$LOOK_FOR/`cat bin\/fl_feature\/template_model_field_id.txt`/s" \
+  $TGTFF/data/"{{name_plural.snakeCase()}}"_model.dart
 
 LOOK_FOR_START='    \/\/\*\* fields start \*\*\/\/'
 LOOK_FOR_END='\/\/\*\* fields end \*\*\/\/'

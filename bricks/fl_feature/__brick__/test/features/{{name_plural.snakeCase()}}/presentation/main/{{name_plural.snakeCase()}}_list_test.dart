@@ -38,10 +38,10 @@ void main() {
     mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}Bloc = Mock{{#pascalCase}}{{name_plural}}{{/pascalCase}}Bloc();
   });
 
-  group('{{#pascalCase}}{{name_plural}}{{/pascalCase}}List', () {
+  group('{{#pascalCase}}{{name_plural}}{{/pascalCase}}View', () {
     testWidgets('page class', (widgetTester) async {
-      // await widgetTester.testWidgetPageClass<{{#pascalCase}}{{name_plural}}{{/pascalCase}}List>();
-      await widgetTester.testWidgetPageClass<{{#pascalCase}}{{name_plural}}{{/pascalCase}}View>();
+      await widgetTester.pumpWidgetUnderTest();
+      expect(find.byType({{#pascalCase}}{{name_plural}}{{/pascalCase}}View), findsWidgets);
     });
 
     testWidgets('renders CircularProgressIndicator when state is loading', (WidgetTester widgetTester) async {
@@ -124,7 +124,6 @@ void main() {
       // await widgetTester.pump(const Duration(seconds: 1));
       // await widgetTester.pump(const Duration(seconds: 1));
 
-      // expect(find.byType({{#pascalCase}}{{name_plural}}{{/pascalCase}}List), findsOneWidget);
       expect(find.byType({{#pascalCase}}{{name_plural}}{{/pascalCase}}View), findsOneWidget);
       itgLogVerbose('111...');
       expect(find.byKey(keyTextError), findsNothing);

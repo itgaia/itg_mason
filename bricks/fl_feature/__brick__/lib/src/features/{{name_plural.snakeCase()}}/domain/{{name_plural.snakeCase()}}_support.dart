@@ -110,6 +110,7 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}Support extends SupportBase {
       // await api.delete{{#pascalCase}}{{name_singular}}{{/pascalCase}}(current.id);
       // refresh<{{#snakeCase}}{{name_singular}}{{/snakeCase}}, {{#pascalCase}}{{name_singular}}{{/pascalCase}}Manager>(context: context, notification: false);
 
+      itgLogVerbose('$baseLogMsg before usecase call - id: ${data.id}');
       final failureOrSuccess = await sl<Delete{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemUsecase>().call(data.id);
       itgLogVerbose('$baseLogMsg after usecase call - failureOrSuccess: $failureOrSuccess');
       failureOrSuccess.fold(
@@ -119,7 +120,7 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}Support extends SupportBase {
             msg: "Error '$failure' when try to delete ${ItgLocalization.tr(titleSingular)}!"
           ),
         (_) {
-          itgLogPrint('$baseLogMsg Item deleted...');
+          itgLogVerbose('$baseLogMsg Item deleted...');
           showNotificationSuccess(
               context: context,
               msg: "${ItgLocalization.tr(titleSingular)} ${ItgLocalization.tr('has been deleted')}"

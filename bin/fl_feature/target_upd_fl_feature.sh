@@ -3,6 +3,7 @@ APP_FOLDER="$TGT_PARENT_FOLDER/$APP_NAME"
 echo -e "\nWarning! All bellow variables must exist and be valid!"
 echo "  APP_NAME: $APP_NAME"
 echo "  TGT_PARENT_FOLDER: $TGT_PARENT_FOLDER"
+echo "  USE_MONGO_DB_BACKEND: $USE_MONGO_DB_BACKEND"
 echo ""
 FEATURE_SC=$FEATURE
 FEATURE_CC=$(ruby -e "require \"active_support\"; require \"active_support/core_ext/string\"; print \"$FEATURE_SC\".camelize(:lower)")
@@ -25,10 +26,13 @@ echo -e "\n***\n*** Run mason make...\n***"
 mason make fl_feature --on-conflict overwrite \
   -o "$APP_FOLDER" \
   -c bricks/fl_feature/config_"$FEATURE".json \
-  --app_name "$APP_NAME"
+  --app_name "$APP_NAME" \
+  --use_mongo_db_backend "$USE_MONGO_DB_BACKEND"
 
 echo -e "\n***\n*** Do replacements...\n***"
 # temp solution until issue solved with mason and not replace vars in $FEATURE_repository_impl.dart
+sed -i '' "s%{{#snakeCase}}{{app_name}}{{/snakeCase}}%$APP_NAME%g" \
+  "$APP_FOLDER"/lib/src/features/"$FEATURE"/data/"$FEATURE"_repository_impl.dart
 sed -i '' "s%{{#snakeCase}}{{name_plural}}{{/snakeCase}}%$FEATURE_SC%g" \
   "$APP_FOLDER"/lib/src/features/"$FEATURE"/data/"$FEATURE"_repository_impl.dart
 sed -i '' "s%{{#pascalCase}}{{name_plural}}{{/pascalCase}}%$FEATURE_PC%g" \
@@ -232,16 +236,33 @@ REPLACE_WITH=$(cat bin\/fl_feature\/template_translations_el.txt)
 perl -i -p0e "s/$LOOK_FOR/$REPLACE_WITH/g" \
   "$APP_FOLDER"/lib/src/app/itg_app_custom.dart
 
+echo -e "  *** custom app settings - feature - delete if already exist..."
+LOOK_FOR_START="\n  \/\/\*\* $FEATURE_PC feature custom app settings start \*\*\/\/"
+LOOK_FOR_END="\/\/\*\* $FEATURE_PC feature custom app settings end \*\*\/\/\n"
+LOOK_FOR="$LOOK_FOR_START(.*)$LOOK_FOR_END"
+perl -i -p0e "s/$LOOK_FOR//s" \
+  "$APP_FOLDER"/lib/src/app/itg_app_custom.dart
+
+echo -e "  *** custom app settings - feature - add..."
+LOOK_FOR='  \/\/\*\* custom app settings \*\*\/\/'
+REPLACE_WITH=$(cat bin\/fl_feature\/template_custom_app_settings.txt)
+perl -i -p0e "s/$LOOK_FOR/$REPLACE_WITH/g" \
+  "$APP_FOLDER"/lib/src/app/itg_app_custom.dart
+
 echo -e "  *** Replace feature name occurrences..."
 perl -i -p0e "s/{feature_name}/$FEATURE/g" \
   "$APP_FOLDER"/lib/src/app/itg_app_custom.dart
 perl -i -p0e "s/{feature_name_pc}/$FEATURE_PC/g" \
+  "$APP_FOLDER"/lib/src/app/itg_app_custom.dart
+perl -i -p0e "s/{feature_name_sc}/$FEATURE_SC/g" \
   "$APP_FOLDER"/lib/src/app/itg_app_custom.dart
 perl -i -p0e "s/{feature_name_pc_singular}/$FEATURE_PC_SINGULAR/g" \
   "$APP_FOLDER"/lib/src/app/itg_app_custom.dart
 perl -i -p0e "s/{feature_name_tc}/$FEATURE_TC/g" \
   "$APP_FOLDER"/lib/src/app/itg_app_custom.dart
 perl -i -p0e "s/{feature_name_tc_singular}/$FEATURE_TC_SINGULAR/g" \
+  "$APP_FOLDER"/lib/src/app/itg_app_custom.dart
+perl -i -p0e "s/{use_mongo_db_backend}/$USE_MONGO_DB_BACKEND/g" \
   "$APP_FOLDER"/lib/src/app/itg_app_custom.dart
 
 echo -e "\n***\n*** Run build_runner...\n***"

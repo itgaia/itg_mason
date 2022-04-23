@@ -1,0 +1,4 @@
+    \/\/\*\* field id start \*\*\/\/
+    {{#use_mongo_db_backend}}\/\/ use mongoDb backend
+    \@ObjectIdJsonConverter() \@JsonKey(name: '_id', includeIfNull: false) String? id,{{\/use_mongo_db_backend}}{{^use_mongo_db_backend}}\@JsonKey(toJson: omitEmpty, includeIfNull: false) String? id,{{\/use_mongo_db_backend}}
+    \/\/\*\* field id end \*\*\/\/

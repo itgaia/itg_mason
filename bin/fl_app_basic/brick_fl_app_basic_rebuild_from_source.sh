@@ -23,6 +23,7 @@ mkdir -p $TGT/lib/src/app
 mkdir -p $TGT/lib/src/features/home
 
 cp $SRC/lib/main_development.dart $TGT/lib/main_development.dart
+cp $SRC/lib/main_production.dart $TGT/lib/main_production.dart
 cp $SRC/lib/src/bootstrap.dart $TGT/lib/src/
 
 cp $SRC/lib/src/app/app.dart $TGT/lib/src/app/

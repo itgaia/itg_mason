@@ -1,9 +1,9 @@
 import 'package:dartz/dartz.dart';
+import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/features/{{#snakeCase}}{{name_plural}}{{/snakeCase}}/domain/{{#snakeCase}}{{name_plural}}{{/snakeCase}}_helper.dart';
 
 import '{{#snakeCase}}{{name_plural}}{{/snakeCase}}_local_datasource.dart';
 import '{{#snakeCase}}{{name_plural}}{{/snakeCase}}_model.dart';
 import '{{#snakeCase}}{{name_plural}}{{/snakeCase}}_remote_datasource.dart';
-import '../../../app/constants.dart';
 import '../../../common/helper.dart';
 import '../../../core/error/exception.dart';
 import '../../../core/error/failures.dart';
@@ -29,7 +29,7 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}RepositoryImpl implements {{#
   Future<Either<Failure, List<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Model>>> get{{#pascalCase}}{{name_plural}}{{/pascalCase}}() async {
     msgBaseSourceMethod = 'get{{#pascalCase}}{{name_plural}}{{/pascalCase}}';
     msgLogInfo('start....');
-    if (await networkInfoIsConnected) {
+    if (await networkInfoIsConnectedFor{{#pascalCase}}{{name_plural}}{{/pascalCase}}) {
       try {
         msgLogInfo('Network is up....');
         final List<{{#pascalCase}}{{name_plural}}{{/pascalCase}}Model> remote{{#pascalCase}}{{name_plural}}{{/pascalCase}} = await remoteDataSource.get{{#pascalCase}}{{name_plural}}{{/pascalCase}}();
@@ -67,7 +67,7 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}RepositoryImpl implements {{#
     msgLogInfo('{{#snakeCase}}{{name_singular}}{{/snakeCase}}: ${{#camelCase}}{{name_plural}}{{/camelCase}}Item');
     // return Right(await localDataSource.add{{#pascalCase}}{{name_singular}}{{/pascalCase}}({{#camelCase}}{{name_singular}}{{/camelCase}}));
     // return Right(await remoteDataSource.create{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item({{#camelCase}}{{name_singular}}{{/camelCase}}));
-    if (await networkInfoIsConnected) {
+    if (await networkInfoIsConnectedFor{{#pascalCase}}{{name_plural}}{{/pascalCase}}) {
       try {
         final {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model ret;
         if ({{#camelCase}}{{name_plural}}{{/camelCase}}Item.id != null && {{#camelCase}}{{name_plural}}{{/camelCase}}Item.id!.isNotEmpty) {
@@ -123,7 +123,7 @@ class {{#pascalCase}}{{name_plural}}{{/pascalCase}}RepositoryImpl implements {{#
   Future<Either<Failure, void>> delete{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item(String id) async {
     msgBaseSourceMethod = 'delete{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item';
     msgLogInfo('id: $id');
-    if (await networkInfoIsConnected) {
+    if (await networkInfoIsConnectedFor{{#pascalCase}}{{name_plural}}{{/pascalCase}}) {
       try {
         msgLogInfo('delete item...');
         await remoteDataSource.delete{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item(id);

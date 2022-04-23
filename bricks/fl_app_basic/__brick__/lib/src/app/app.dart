@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'constants.dart';
 import 'injection_container.dart' as di;
 import 'app_config.dart';
 import 'injection_container.dart';
@@ -26,8 +25,8 @@ Future<void> initializeApp({bool forTesting = false}) async {
   // This prevents a sudden theme change when the app is first displayed.
   await di.sl<SettingsController>().loadSettings();
 
-  itgLogVerbose('$baseLogMsg set appMainPage...');
   di.sl<SettingsService>().appMainPage = const HomePage();
+  itgLogVerbose('$baseLogMsg appMainPage: ${di.sl<SettingsService>().appMainPage}');
 
   itgLogVerbose('$baseLogMsg end...');
 }

@@ -1,19 +1,22 @@
 import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/app/constants.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:{{#snakeCase}}{{app_name}}{{/snakeCase}}/src/common/helper.dart';
 
-import '../../../app/app_private_config.dart';
 import '../data/{{#snakeCase}}{{name_plural}}{{/snakeCase}}_model.dart';
+
+const feature{{#pascalCase}}{{name_plural}}{{/pascalCase}} = '{{#paramCase}}{{name_plural}}{{/paramCase}}';
 
 // key name abbreviation constants for feature - unique
 const keyAbbrFeature{{#pascalCase}}{{name_plural}}{{/pascalCase}} = '{{#lowerCase}}{{abbreviation}}{{/lowerCase}}';
+
+Future<bool> networkInfoIsConnectedFor{{#pascalCase}}{{name_plural}}{{/pascalCase}} = Future.value(false);
+bool useMongoDbBackendFor{{#pascalCase}}{{name_plural}}{{/pascalCase}} = false;
 
 const appTitle{{#pascalCase}}{{name_plural}}{{/pascalCase}} = '{{#titleCase}}{{name_plural}}{{/titleCase}}';
 const appTitle{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item = '{{#titleCase}}{{name_singular}}{{/titleCase}}';
 const appTitle{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemAddPage = 'New $appTitle{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item';
 const appTitle{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemEditPage = 'Edit $appTitle{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item';
 const appTitle{{#pascalCase}}{{name_plural}}{{/pascalCase}}ItemDuplicatePage = 'Duplicate $appTitle{{#pascalCase}}{{name_plural}}{{/pascalCase}}Item';
-
-const url{{#pascalCase}}{{name_plural}}{{/pascalCase}} = '$serverUrl/{{#snakeCase}}{{name_plural}}{{/snakeCase}}';
 
 const keyButton{{#pascalCase}}{{name_plural}}{{/pascalCase}}Page = Key('button-{{#paramCase}}{{name_plural}}{{/paramCase}}-page');
 
@@ -43,8 +46,21 @@ Map<String, dynamic> item{{#pascalCase}}{{name_plural}}{{/pascalCase}}ObjectAsSt
   Map<String, dynamic> ret = {};
   for (var element in {{#pascalCase}}{{name_plural}}{{/pascalCase}}Model.fields) {
     if (!omitEmpty || (omitEmpty && item[element].toString().isNotEmpty)) {
-      ret[element] = item[element];
+      if (element == 'id' && useMongoDbBackendFor{{#pascalCase}}{{name_plural}}{{/pascalCase}}) {
+        ret['_id'] = buildIdMapForMongoDb(item[element]);
+      } else {
+        ret[element] = item[element];
+      }
     }
   }
   return ret;
+}
+
+/// Returns an id for testing purposes (check for
+String getIdForTesting(String suffix) {
+  if (useMongoDbBackendFor{{#pascalCase}}{{name_plural}}{{/pascalCase}}) {
+    return sampleIdForMongoDb.substring(0, sampleIdForMongoDb.length-suffix.length) + suffix;
+  } else {
+    return suffix;
+  }
 }
